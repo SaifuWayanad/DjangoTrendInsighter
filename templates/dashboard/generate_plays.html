@@ -16,6 +16,42 @@
     .table thead th { background: #f8f9fa; border: none; border-bottom: 2px solid #e5e5e5; font-weight: 600; color: #2d3436; padding: 10px 12px; }
     .table tbody td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
     .badge { font-size: 11px; padding: 4px 8px; }
+    /* Professional Line-based Tab Styling */
+    #insightTabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e5e5e5;
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+        background: transparent;
+    }
+    #insightTabs .nav-item {
+        flex: 1;
+    }
+    #insightTabs .nav-link {
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 14px 16px;
+        color: #999;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        background: transparent;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    #insightTabs .nav-link:hover {
+        color: #555;
+        border-bottom-color: #ccc;
+    }
+    #insightTabs .nav-link.active {
+        color: #dc3545;
+        border-bottom-color: #dc3545;
+    }
 </style>
 
 <div class="page-header">
@@ -53,87 +89,23 @@
                     </div>
                 </div>
 
-                
-
-                <div id="emptyState" class="text-center p-5">
-                    <i class="fas fa-gamepad" style="font-size: 48px; color: #ccc; margin-bottom: 16px;"></i>
-                    <p class="text-muted">Select account and priority to generate plays</p>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-3">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5><i class="fas fa-list"></i> Priority Summary: <span id="priorityBadge" class="badge bg-secondary">Not Selected</span></h5>
-            </div>
-            <div class="card-body p-3">
-                <div id="playsContent" style="display: none; margin-top: 16px;">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Play Title</th>
-                                    <th>Account</th>
-                                    <th>Priority</th>
-                                    <th>Status</th>
-                                    <th>Created</th>
-                                </tr>
-                            </thead>
-                            <tbody id="playsTable">
-                                <tr><td colspan="5" class="text-center text-muted">No plays found</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <br>
-                <div id="priorityInfo" style="display: none;">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
-                                <li><i class="fas fa-check-circle"></i> <strong id="priorityCount">0</strong> plays scheduled</li>
-                                <li><i class="fas fa-spinner"></i> <strong id="priorityProgress">0%</strong> completion rate</li>
-                                <li><i class="fas fa-clock"></i> Avg duration: <strong id="priorityDuration">N/A</strong></li>
-                                <li><i class="fas fa-chart-line"></i> Impact score: <strong id="priorityImpact">N/A</strong></li>
-                                <li><i class="fas fa-building"></i> Accounts affected: <strong id="priorityAccounts">N/A</strong></li>
-                                <li><i class="fas fa-code-branch"></i> Dependencies: <strong id="priorityDependencies">N/A</strong></li>
-                                <li><i class="fas fa-tachometer-alt"></i> Resource utilization: <strong id="priorityResources">N/A</strong></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
-                                <li><i class="fas fa-users"></i> Team size: <strong id="priorityTeam">N/A</strong></li>
-                                <li><i class="fas fa-dollar-sign"></i> Est. budget: <strong id="priorityBudget">N/A</strong></li>
-                                <li><i class="fas fa-target"></i> Success rate: <strong id="prioritySuccess">N/A</strong></li>
-                                <li><i class="fas fa-exclamation"></i> Risk level: <strong id="priorityRisk">N/A</strong></li>
-                                <li><i class="fas fa-handshake"></i> Stakeholder buy-in: <strong id="priorityStakeholder">N/A</strong></li>
-                                <li><i class="fas fa-list-check"></i> Deliverables: <strong id="priorityDeliverables">N/A</strong></li>
-                                <li><i class="fas fa-gem"></i> Value creation: <strong id="priorityValue">N/A</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div id="emptyPriority" class="text-center" style="padding: 30px 0;">
-                    <p class="text-muted" style="font-size: 13px;">Select a priority level to view summary details</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="row mt-3">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h5><i class="fas fa-lightbulb"></i> Strategic Insights</h5>
-            </div>
+            
             <div class="card-body p-3">
-                <ul class="nav nav-tabs mb-3" id="insightTabs" role="tablist">
+                <ul id="insightTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab"><i class="fas fa-handshake"></i> Sales Pitch</button>
+                        <button class="nav-link active" id="priorities-tab" data-bs-toggle="tab" data-bs-target="#priorities" type="button" role="tab"><i class="fas fa-star"></i> Account Priorities</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab"><i class="fas fa-handshake"></i> Sales Pitch</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="solutions-tab" data-bs-toggle="tab" data-bs-target="#solutions" type="button" role="tab"><i class="fas fa-cube"></i> Solutions</button>
@@ -141,48 +113,105 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="executives-tab" data-bs-toggle="tab" data-bs-target="#executives" type="button" role="tab"><i class="fas fa-user-tie"></i> Executives</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab"><i class="fas fa-comments"></i> Feed Back</button>
+                    </li>
                 </ul>
 
                 <div class="tab-content" id="insightTabContent">
-                    <!-- Sales Pitch Tab -->
-                    <div class="tab-pane fade show active" id="sales" role="tabpanel">
+                    <!-- Account Priorities Tab -->
+                    <div class="tab-pane fade show active" id="priorities" role="tabpanel">
                         <div style="margin-bottom: 20px;">
-                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 20px;"><i class="fas fa-handshake"></i> Sales Pitch & Messaging</h5>
+                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 16px;"><i class="fas fa-star"></i> Account Priorities Overview</h5>
+                            <p style="font-size: 12px; color: #666; margin-bottom: 20px; padding: 12px 14px; background: #fff3f0; border-left: 4px solid #0066cc; border-radius: 4px;"><strong>Strategic Account Analysis</strong> — View all accounts with their current priorities, engagement status, and recommended next actions</p>
                             
-                            <!-- High Priority -->
-                            <div style="margin-bottom: 25px; padding: 15px; background: #fff5f5; border-left: 4px solid #dc3545; border-radius: 4px;">
-                                <h6 style="font-size: 13px; font-weight: 600; color: #dc3545; margin-bottom: 12px;"><i class="fas fa-fire"></i> HIGH PRIORITY</h6>
-                                <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
-                                    <li><strong><i class="fas fa-bullseye"></i> Primary Pitch:</strong> Transform business-critical operations with enterprise-grade strategic execution</li>
-                                    <li><strong><i class="fas fa-lightning-bolt"></i> Key Differentiator:</strong> Proven methodology delivers 65% completion rates on high-impact initiatives</li>
-                                    <li><strong><i class="fas fa-chart-line"></i> Business Impact:</strong> $500K+ ROI per initiative with measurable results in 3-4 weeks</li>
-                                    <li><strong><i class="fas fa-users"></i> Executive Alignment:</strong> 85% stakeholder buy-in with dedicated 8-10 person teams</li>
-                                    <li><strong><i class="fas fa-shield-alt"></i> Risk Mitigation:</strong> Comprehensive dependency management with 2-3 critical safeguards</li>
-                                </ul>
+                            <div style="display: grid; gap: 12px;">
+                                <!-- Placeholder Content -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #0066cc; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-chart-bar" style="color: #0066cc; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Priority Distribution</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">View account distribution across high, medium, and low priority levels</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #28a745; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-list-check" style="color: #28a745; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Engagement Status</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">Track account engagement and stakeholder alignment for each priority tier</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sales Pitch Tab -->
+                    <div class="tab-pane fade" id="sales" role="tabpanel">
+                        <div style="margin-bottom: 20px;">
+                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 16px;"><i class="fas fa-fire"></i> High Priority Sales Pitch</h5>
+                            <p style="font-size: 12px; color: #666; margin-bottom: 20px; padding: 12px 14px; background: #fff5f5; border-left: 4px solid #dc3545; border-radius: 4px;"><strong>Enterprise-Grade Strategic Execution</strong> — Transform business-critical operations with proven methodology delivering 65% completion rates and measurable results</p>
                             
-                            <!-- Medium Priority -->
-                            <div style="margin-bottom: 25px; padding: 15px; background: #fff8f0; border-left: 4px solid #ffc107; border-radius: 4px;">
-                                <h6 style="font-size: 13px; font-weight: 600; color: #ffc107; margin-bottom: 12px;"><i class="fas fa-star"></i> MEDIUM PRIORITY</h6>
-                                <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
-                                    <li><strong><i class="fas fa-bullseye"></i> Primary Pitch:</strong> Accelerate mid-level initiatives with balanced risk-reward approach</li>
-                                    <li><strong><i class="fas fa-cogs"></i> Key Differentiator:</strong> Proven track record with 45% completion rates on moderate-complexity plays</li>
-                                    <li><strong><i class="fas fa-chart-line"></i> Business Impact:</strong> $200K-$300K ROI with streamlined 2-3 week execution cycles</li>
-                                    <li><strong><i class="fas fa-users"></i> Executive Alignment:</strong> 72% stakeholder support with lean 4-6 person teams</li>
-                                    <li><strong><i class="fas fa-balance-scale"></i> Risk Balance:</strong> Moderate risk profile with 1-2 dependency mitigations</li>
-                                </ul>
-                            </div>
-                            
-                            <!-- Low Priority -->
-                            <div style="padding: 15px; background: #f0f9ff; border-left: 4px solid #6c757d; border-radius: 4px;">
-                                <h6 style="font-size: 13px; font-weight: 600; color: #6c757d; margin-bottom: 12px;"><i class="fas fa-check-circle"></i> LOW PRIORITY</h6>
-                                <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
-                                    <li><strong><i class="fas fa-bullseye"></i> Primary Pitch:</strong> Optimize operations with quick-win, low-risk initiatives</li>
-                                    <li><strong><i class="fas fa-rocket"></i> Key Differentiator:</strong> Rapid deployment with 30% completion rates on foundational improvements</li>
-                                    <li><strong><i class="fas fa-chart-line"></i> Business Impact:</strong> $50K-$100K ROI with 1-2 week execution windows</li>
-                                    <li><strong><i class="fas fa-users"></i> Executive Alignment:</strong> 60% stakeholder engagement with focused 2-3 person teams</li>
-                                    <li><strong><i class="fas fa-check-circle"></i> Risk Profile:</strong> Low-risk execution with minimal dependencies</li>
-                                </ul>
+                            <!-- Pitch Cards Grid -->
+                            <div style="display: grid; gap: 12px;">
+                                <!-- Card 1: Primary Pitch -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #dc3545; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-bullseye" style="color: #dc3545; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Primary Pitch</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">Transform business-critical operations with enterprise-grade strategic execution</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 2: Key Differentiator -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #ffc107; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-lightning-bolt" style="color: #ffc107; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Key Differentiator</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">Proven methodology delivers <strong>65% completion rates</strong> on high-impact initiatives</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 3: Business Impact -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #28a745; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-chart-line" style="color: #28a745; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Business Impact</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;"><strong>$500K+ ROI</strong> per initiative with measurable results in <strong>3-4 weeks</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 4: Executive Alignment -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #0066cc; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-users" style="color: #0066cc; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Executive Alignment</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;"><strong>85% stakeholder buy-in</strong> with dedicated <strong>8-10 person teams</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 5: Risk Mitigation -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #17a2b8; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-shield-alt" style="color: #17a2b8; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Risk Mitigation</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">Comprehensive dependency management with <strong>2-3 critical safeguards</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -191,209 +220,178 @@
                     <div class="tab-pane fade" id="solutions" role="tabpanel">
                         <div style="margin-bottom: 20px;">
                             <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 20px;"><i class="fas fa-lightbulb"></i> Enterprise Strategic Solutions</h5>
-                            <p style="font-size: 12px; color: #666; margin-bottom: 20px; padding: 12px; background: #f8f9fa; border-left: 4px solid #2d3436; border-radius: 4px;">Comprehensive enterprise-grade platform designed for high-impact strategic initiatives with 95% resource utilization and 82% success rate</p>
+                            <p style="font-size: 12px; color: #666; margin-bottom: 25px; padding: 15px; background: #f0f8ff; border-left: 4px solid #2d3436; border-radius: 4px;">Comprehensive enterprise-grade platform designed for high-impact strategic initiatives with 95% resource utilization and 82% success rate</p>
                             
-                            <div class="accordion" style="border: 1px solid #e5e5e5;">
+                            <div style="display: grid; gap: 12px;">
                                 <!-- 1. Executive Overview -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#soln1" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-chart-line"></i> 1. Executive Overview
-                                        </button>
-                                    </h2>
-                                    <div id="soln1" class="accordion-collapse collapse show" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Solution Summary:</strong> Enterprise-grade strategic platform delivering $500K+ ROI with world-class execution</li>
-                                                <li style="margin-bottom: 10px;"><strong>Vision:</strong> Transform critical business operations with proven methodology and dedicated expertise</li>
-                                                <li style="margin-bottom: 10px;"><strong>Objectives:</strong> Achieve 65% completion rate, 85% stakeholder buy-in, deliver within 3-4 weeks</li>
-                                                <li><strong>Key Outcomes:</strong> Measurable business impact, reduced operational risk, accelerated growth trajectory</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln1" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-chart-line" style="color: #2d3436; margin-right: 10px; width: 20px;"></i> 1. Executive Overview</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln1" class="collapse show" style="display: block;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>✓ Solution Summary</strong><br/>Enterprise-grade strategic platform delivering $500K+ ROI with world-class execution</div>
+                                            <div style="margin-bottom: 12px;"><strong>✓ Vision</strong><br/>Transform critical business operations with proven methodology and dedicated expertise</div>
+                                            <div style="margin-bottom: 12px;"><strong>✓ Objectives</strong><br/>Achieve 65% completion rate, 85% stakeholder buy-in, deliver within 3-4 weeks</div>
+                                            <div><strong>✓ Key Outcomes</strong><br/>Measurable business impact, reduced operational risk, accelerated growth trajectory</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 2. Business Problem -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln2" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-exclamation-triangle"></i> 2. Business Problem
-                                        </button>
-                                    </h2>
-                                    <div id="soln2" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Current Challenges:</strong> Complex multi-account deployments, resource constraints, timeline pressures, integration complexity</li>
-                                                <li style="margin-bottom: 10px;"><strong>Pain Points:</strong> High implementation costs ($50K-$75K per initiative), long deployment cycles, integration complexities, staff skill gaps</li>
-                                                <li><strong>Market Context:</strong> Enterprise customers demand faster strategic execution with lower risk profiles and measurable ROI</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln2" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 10px; width: 20px;"></i> 2. Business Problem</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln2" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Current Challenges</strong><br/>Complex multi-account deployments, resource constraints, timeline pressures, integration complexity</div>
+                                            <div style="margin-bottom: 12px;"><strong>Pain Points</strong><br/>High implementation costs ($50K-$75K per initiative), long deployment cycles, integration complexities, staff skill gaps</div>
+                                            <div><strong>Market Context</strong><br/>Enterprise customers demand faster strategic execution with lower risk profiles and measurable ROI</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 3. Proposed Solution -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln3" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-lightbulb"></i> 3. Proposed Solution
-                                        </button>
-                                    </h2>
-                                    <div id="soln3" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Solution Overview:</strong> Integrated platform with AI-driven optimization and predictive analytics for strategic execution</li>
-                                                <li style="margin-bottom: 10px;"><strong>Key Capabilities:</strong> Cloud infrastructure, advanced analytics, security compliance, system integration, 24/7 support</li>
-                                                <li><strong>Differentiators:</strong> Proven 82% success rate, dedicated support teams, 2-3 critical dependency management, Fortune 500 track record</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln3" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-lightbulb" style="color: #ffc107; margin-right: 10px; width: 20px;"></i> 3. Proposed Solution</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln3" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Solution Overview</strong><br/>Integrated platform with AI-driven optimization and predictive analytics for strategic execution</div>
+                                            <div style="margin-bottom: 12px;"><strong>Key Capabilities</strong><br/>Cloud infrastructure, advanced analytics, security compliance, system integration, 24/7 support</div>
+                                            <div><strong>Differentiators</strong><br/>Proven 82% success rate, dedicated support teams, 2-3 critical dependency management, Fortune 500 track record</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 4. Architecture Overview -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln4" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-cube"></i> 4. Architecture Overview
-                                        </button>
-                                    </h2>
-                                    <div id="soln4" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>High-Level Architecture:</strong> Microservices-based cloud platform with modular, independently scalable components</li>
-                                                <li style="margin-bottom: 10px;"><strong>Core Components:</strong> API Gateway, Analytics Engine, Security Layer, Integration Hub, Workflow Engine, Reporting Module</li>
-                                                <li><strong>Technology Stack:</strong> Kubernetes, Python/Java, PostgreSQL, Elasticsearch, Apache Kafka for real-time processing</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln4" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-cube" style="color: #0066cc; margin-right: 10px; width: 20px;"></i> 4. Architecture Overview</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln4" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>High-Level Architecture</strong><br/>Microservices-based cloud platform with modular, independently scalable components</div>
+                                            <div style="margin-bottom: 12px;"><strong>Core Components</strong><br/>API Gateway, Analytics Engine, Security Layer, Integration Hub, Workflow Engine, Reporting Module</div>
+                                            <div><strong>Technology Stack</strong><br/>Kubernetes, Python/Java, PostgreSQL, Elasticsearch, Apache Kafka for real-time processing</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 5. Key Features / Modules -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln5" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-cogs"></i> 5. Key Features / Modules
-                                        </button>
-                                    </h2>
-                                    <div id="soln5" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Functional Modules:</strong> Account Management, Risk Assessment, Dependency Mapping, Resource Planning, Executive Reporting</li>
-                                                <li style="margin-bottom: 10px;"><strong>User Workflows:</strong> Executive dashboards, team collaboration tools, real-time tracking, milestone management, approval workflows</li>
-                                                <li><strong>Integration Points:</strong> 12-15 enterprise system integrations, REST APIs, webhook support, automated data synchronization</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln5" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-cogs" style="color: #6c757d; margin-right: 10px; width: 20px;"></i> 5. Key Features / Modules</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln5" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Functional Modules</strong><br/>Account Management, Risk Assessment, Dependency Mapping, Resource Planning, Executive Reporting</div>
+                                            <div style="margin-bottom: 12px;"><strong>User Workflows</strong><br/>Executive dashboards, team collaboration tools, real-time tracking, milestone management, approval workflows</div>
+                                            <div><strong>Integration Points</strong><br/>12-15 enterprise system integrations, REST APIs, webhook support, automated data synchronization</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 6. Value Proposition -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln6" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-trophy"></i> 6. Value Proposition
-                                        </button>
-                                    </h2>
-                                    <div id="soln6" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Business Benefits:</strong> 400%+ ROI, 50% faster time-to-value, 85% cost optimization vs competitors, revenue acceleration</li>
-                                                <li style="margin-bottom: 10px;"><strong>Competitive Advantage:</strong> Proven track record with Fortune 500 companies, AI-powered insights, white-glove support, proprietary algorithms</li>
-                                                <li><strong>Customer Impact:</strong> Strategic agility, operational excellence, reduced risk, measurable business outcomes, competitive differentiation</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln6" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-trophy" style="color: #28a745; margin-right: 10px; width: 20px;"></i> 6. Value Proposition</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln6" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Business Benefits</strong><br/>400%+ ROI, 50% faster time-to-value, 85% cost optimization vs competitors, revenue acceleration</div>
+                                            <div style="margin-bottom: 12px;"><strong>Competitive Advantage</strong><br/>Proven track record with Fortune 500 companies, AI-powered insights, white-glove support, proprietary algorithms</div>
+                                            <div><strong>Customer Impact</strong><br/>Strategic agility, operational excellence, reduced risk, measurable business outcomes, competitive differentiation</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 7. Security & Compliance -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln7" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-lock"></i> 7. Security & Compliance
-                                        </button>
-                                    </h2>
-                                    <div id="soln7" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Data Security:</strong> End-to-end encryption (AES-256), ISO 27001 certified infrastructure, secure data centers, regular penetration testing</li>
-                                                <li style="margin-bottom: 10px;"><strong>Access Control:</strong> Multi-factor authentication, role-based access control, session management, audit logging, IP whitelisting</li>
-                                                <li><strong>Compliance Standards:</strong> SOC2 Type II, GDPR compliant, HIPAA ready, PCI-DSS certified, industry-standard certifications</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln7" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-lock" style="color: #007bff; margin-right: 10px; width: 20px;"></i> 7. Security & Compliance</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln7" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Data Security</strong><br/>End-to-end encryption (AES-256), ISO 27001 certified infrastructure, secure data centers, regular penetration testing</div>
+                                            <div style="margin-bottom: 12px;"><strong>Access Control</strong><br/>Multi-factor authentication, role-based access control, session management, audit logging, IP whitelisting</div>
+                                            <div><strong>Compliance Standards</strong><br/>SOC2 Type II, GDPR compliant, HIPAA ready, PCI-DSS certified, industry-standard certifications</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 8. Scalability & Performance -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln8" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-bolt"></i> 8. Scalability & Performance
-                                        </button>
-                                    </h2>
-                                    <div id="soln8" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>System Scalability:</strong> Auto-scaling infrastructure supporting 1M+ concurrent users, elastic load balancing, distributed caching</li>
-                                                <li style="margin-bottom: 10px;"><strong>Availability & Reliability:</strong> 99.99% SLA, multi-region redundancy, automatic failover, disaster recovery procedures</li>
-                                                <li><strong>Performance Strategy:</strong> Sub-100ms response times, optimized database queries, intelligent caching, CDN integration</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln8" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-bolt" style="color: #ffc107; margin-right: 10px; width: 20px;"></i> 8. Scalability & Performance</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln8" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>System Scalability</strong><br/>Auto-scaling infrastructure supporting 1M+ concurrent users, elastic load balancing, distributed caching</div>
+                                            <div style="margin-bottom: 12px;"><strong>Availability & Reliability</strong><br/>99.99% SLA, multi-region redundancy, automatic failover, disaster recovery procedures</div>
+                                            <div><strong>Performance Strategy</strong><br/>Sub-100ms response times, optimized database queries, intelligent caching, CDN integration</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 9. Implementation Plan -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln9" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-tasks"></i> 9. Implementation Plan
-                                        </button>
-                                    </h2>
-                                    <div id="soln9" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Phases / Roadmap:</strong> <br/>Phase 1: Discovery & Assessment (Week 1), Phase 2: Deployment & Configuration (Week 2), Phase 3: Optimization & Handoff (Week 3-4)</li>
-                                                <li style="margin-bottom: 10px;"><strong>Timeline:</strong> 3-4 weeks end-to-end with dedicated team support, daily standups, executive steering committee</li>
-                                                <li><strong>Resource Requirements:</strong> 8-10 person team, executive sponsor, technical leads, change management support</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln9" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-tasks" style="color: #17a2b8; margin-right: 10px; width: 20px;"></i> 9. Implementation Plan</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln9" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Phases / Roadmap</strong><br/>Phase 1: Discovery & Assessment (Week 1) • Phase 2: Deployment & Configuration (Week 2) • Phase 3: Optimization & Handoff (Week 3-4)</div>
+                                            <div style="margin-bottom: 12px;"><strong>Timeline</strong><br/>3-4 weeks end-to-end with dedicated team support, daily standups, executive steering committee</div>
+                                            <div><strong>Resource Requirements</strong><br/>8-10 person team, executive sponsor, technical leads, change management support</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 10. Cost & Pricing Model -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln10" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-dollar-sign"></i> 10. Cost & Pricing Model
-                                        </button>
-                                    </h2>
-                                    <div id="soln10" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Estimated Cost:</strong> $50K-$75K for enterprise deployment with full team and resources</li>
-                                                <li style="margin-bottom: 10px;"><strong>Pricing Strategy:</strong> Usage-based + subscription model, volume discounts for multi-account, flexible payment terms</li>
-                                                <li><strong>Cost vs Value:</strong> Average ROI payback in 2-3 months with $500K+ value creation and ongoing benefits</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln10" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-dollar-sign" style="color: #28a745; margin-right: 10px; width: 20px;"></i> 10. Cost & Pricing Model</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln10" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Estimated Cost</strong><br/>$50K-$75K for enterprise deployment with full team and resources</div>
+                                            <div style="margin-bottom: 12px;"><strong>Pricing Strategy</strong><br/>Usage-based + subscription model, volume discounts for multi-account, flexible payment terms</div>
+                                            <div><strong>Cost vs Value</strong><br/>Average ROI payback in 2-3 months with $500K+ value creation and ongoing benefits</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 11. Capabilities & Owners -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln11" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-users"></i> 11. Capabilities & Owners
-                                        </button>
-                                    </h2>
-                                    <div id="soln11" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <table class="table table-sm" style="margin-bottom: 0;">
-                                                <thead>
-                                                    <tr style="font-weight: 600;"><th>Capability</th><th>Owner</th></tr>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln11" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-users" style="color: #6f42c1; margin-right: 10px; width: 20px;"></i> 11. Capabilities & Owners</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln11" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff;">
+                                            <table class="table" style="margin-bottom: 0; font-size: 12px;">
+                                                <thead style="background: #f8f9fa;">
+                                                    <tr><th style="border: none; padding: 10px; font-weight: 600;">Capability</th><th style="border: none; padding: 10px; font-weight: 600;">Owner</th></tr>
                                                 </thead>
-                                                <tbody style="font-size: 11px;">
-                                                    <tr><td><strong>Cloud Infrastructure - Enterprise Platform</strong></td><td><span class="badge bg-primary">VP of Infrastructure</span></td></tr>
-                                                    <tr><td><strong>Advanced Analytics & Intelligence Layer</strong></td><td><span class="badge bg-primary">Director of Data Strategy</span></td></tr>
-                                                    <tr><td><strong>Multi-layered Security & Compliance</strong></td><td><span class="badge bg-primary">Chief Security Officer</span></td></tr>
-                                                    <tr><td><strong>System Integration Backbone</strong></td><td><span class="badge bg-primary">VP of Integration Services</span></td></tr>
-                                                    <tr><td><strong>Dedicated Technical Support</strong></td><td><span class="badge bg-primary">Director of Customer Success</span></td></tr>
+                                                <tbody>
+                                                    <tr><td style="border-top: none; padding: 10px;">Cloud Infrastructure - Enterprise Platform</td><td style="border-top: none; padding: 10px;"><span class="badge bg-primary">VP of Infrastructure</span></td></tr>
+                                                    <tr><td style="border: none; padding: 10px;">Advanced Analytics & Intelligence Layer</td><td style="border: none; padding: 10px;"><span class="badge bg-primary">Director of Data Strategy</span></td></tr>
+                                                    <tr><td style="border: none; padding: 10px;">Multi-layered Security & Compliance</td><td style="border: none; padding: 10px;"><span class="badge bg-primary">Chief Security Officer</span></td></tr>
+                                                    <tr><td style="border: none; padding: 10px;">System Integration Backbone</td><td style="border: none; padding: 10px;"><span class="badge bg-primary">VP of Integration Services</span></td></tr>
+                                                    <tr><td style="border: none; padding: 10px;">Dedicated Technical Support</td><td style="border: none; padding: 10px;"><span class="badge bg-primary">Director of Customer Success</span></td></tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -401,72 +399,60 @@
                                 </div>
 
                                 <!-- 12. Risk & Mitigation -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln12" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-shield-alt"></i> 12. Risk & Mitigation
-                                        </button>
-                                    </h2>
-                                    <div id="soln12" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Potential Risks:</strong> Integration complexity, change management challenges, resource availability, timeline slippage</li>
-                                                <li><strong>Mitigation Strategies:</strong> Comprehensive risk planning, dedicated success manager, change management support, insurance coverage, contingency buffer (15%)</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln12" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-shield-alt" style="color: #dc3545; margin-right: 10px; width: 20px;"></i> 12. Risk & Mitigation</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln12" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Potential Risks</strong><br/>Integration complexity, change management challenges, resource availability, timeline slippage</div>
+                                            <div><strong>Mitigation Strategies</strong><br/>Comprehensive risk planning, dedicated success manager, change management support, insurance coverage, contingency buffer (15%)</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 13. Demo / Use Case Scenario -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln13" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-play-circle"></i> 13. Demo / Use Case Scenario
-                                        </button>
-                                    </h2>
-                                    <div id="soln13" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Real-world Example:</strong> Global Fortune 500 company accelerated digital transformation reducing time-to-market by 60%</li>
-                                                <li style="margin-bottom: 10px;"><strong>Walkthrough:</strong> Account setup → data import → risk analysis → AI-driven recommendations → deployment → ROI tracking</li>
-                                                <li><strong>Results:</strong> 60% faster delivery, $300K cost savings, 85% team efficiency improvement, measurable business impact</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln13" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-play-circle" style="color: #fd7e14; margin-right: 10px; width: 20px;"></i> 13. Demo / Use Case Scenario</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln13" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Real-world Example</strong><br/>Global Fortune 500 company accelerated digital transformation reducing time-to-market by 60%</div>
+                                            <div style="margin-bottom: 12px;"><strong>Walkthrough</strong><br/>Account setup → data import → risk analysis → AI-driven recommendations → deployment → ROI tracking</div>
+                                            <div><strong>Results</strong><br/>60% faster delivery, $300K cost savings, 85% team efficiency improvement, measurable business impact</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 14. Why Us? -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln14" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-star"></i> 14. Why Us?
-                                        </button>
-                                    </h2>
-                                    <div id="soln14" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Expertise:</strong> 15+ years of enterprise transformation experience, 500+ successful deployments globally</li>
-                                                <li style="margin-bottom: 10px;"><strong>Past Experience:</strong> Leading companies in finance, healthcare, technology, retail, manufacturing sectors</li>
-                                                <li><strong>Unique Strengths:</strong> Proprietary AI algorithms, dedicated support model, proven methodology, white-glove service, track record of excellence</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln14" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-star" style="color: #ffc107; margin-right: 10px; width: 20px;"></i> 14. Why Us?</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln14" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Expertise</strong><br/>15+ years of enterprise transformation experience, 500+ successful deployments globally</div>
+                                            <div style="margin-bottom: 12px;"><strong>Past Experience</strong><br/>Leading companies in finance, healthcare, technology, retail, manufacturing sectors</div>
+                                            <div><strong>Unique Strengths</strong><br/>Proprietary AI algorithms, dedicated support model, proven methodology, white-glove service, track record of excellence</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- 15. Next Steps -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#soln15" style="font-size: 12px; font-weight: 600; color: #2d3436; padding: 12px;">
-                                            <i class="fas fa-arrow-right"></i> 15. Next Steps
-                                        </button>
-                                    </h2>
-                                    <div id="soln15" class="accordion-collapse collapse" data-bs-parent=".accordion">
-                                        <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
-                                            <ul class="list-unstyled">
-                                                <li style="margin-bottom: 10px;"><strong>Call to Action:</strong> Schedule 30-minute executive briefing to explore fit, timeline, and value</li>
-                                                <li style="margin-bottom: 10px;"><strong>Engagement Plan:</strong> Executive presentation (Week 1) → Technical assessment (Week 2) → Pilot proposal (Week 3)</li>
-                                                <li><strong>Timeline:</strong> Ready to start within 15 days with full team mobilization and dedicated support</li>
-                                            </ul>
+                                <div style="border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden; background: #fff;">
+                                    <button type="button" data-bs-toggle="collapse" data-bs-target="#soln15" style="width: 100%; text-align: left; border: none; background: #f8f9fa; padding: 16px; cursor: pointer; font-size: 13px; font-weight: 600; color: #2d3436; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-arrow-right" style="color: #28a745; margin-right: 10px; width: 20px;"></i> 15. Next Steps</span>
+                                        <i class="fas fa-chevron-down" style="font-size: 11px; color: #999;"></i>
+                                    </button>
+                                    <div id="soln15" class="collapse" style="display: none;">
+                                        <div style="padding: 18px; background: #fff; font-size: 13px; line-height: 1.8; color: #555;">
+                                            <div style="margin-bottom: 12px;"><strong>Call to Action</strong><br/>Schedule 30-minute executive briefing to explore fit, timeline, and value</div>
+                                            <div style="margin-bottom: 12px;"><strong>Engagement Plan</strong><br/>Executive presentation (Week 1) → Technical assessment (Week 2) → Pilot proposal (Week 3)</div>
+                                            <div><strong>Timeline</strong><br/>Ready to start within 15 days with full team mobilization and dedicated support</div>
                                         </div>
                                     </div>
                                 </div>
@@ -477,129 +463,117 @@
                     <!-- Executives Tab -->
                     <div class="tab-pane fade" id="executives" role="tabpanel">
                         <div style="margin-bottom: 20px;">
-                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 20px;"><i class="fas fa-user-tie"></i> Key Executive Stakeholders</h5>
+                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 12px;"><i class="fas fa-user-tie"></i> Key Executive Stakeholders</h5>
+                            <p style="font-size: 12px; color: #666; margin-bottom: 25px; padding: 15px; background: #fff5f5; border-left: 4px solid #dc3545; border-radius: 4px;"><i class="fas fa-info-circle"></i> C-Suite and Senior Leadership Team essential for strategic success</p>
                             
-                            <!-- HIGH PRIORITY EXECUTIVES -->
-                            <div style="margin-bottom: 25px;">
-                                <h6 style="font-size: 13px; font-weight: 600; color: #dc3545; margin-bottom: 12px;"><i class="fas fa-fire"></i> HIGH PRIORITY EXECUTIVES</h6>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 30%;"><i class="fas fa-user-tie"></i> Executive Name</th>
-                                            <th style="width: 25%;"><i class="fas fa-briefcase"></i> Role</th>
-                                            <th style="width: 45%;"><i class="fas fa-star"></i> Why Selected</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size: 12px;">
-                                        <tr>
-                                            <td><strong>Chief Executive Officer</strong></td>
-                                            <td><span class="badge bg-danger">C-Suite Strategic Lead</span></td>
-                                            <td>Overall business outcomes, strategic alignment, and board-level approval</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Chief Financial Officer</strong></td>
-                                            <td><span class="badge bg-danger">Finance & Investment</span></td>
-                                            <td>$50K-$75K budget allocation and $500K+ ROI validation</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Chief Technology Officer</strong></td>
-                                            <td><span class="badge bg-danger">Technical Governance</span></td>
-                                            <td>Infrastructure feasibility and 2-3 critical dependency resolution</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>VP of Operations</strong></td>
-                                            <td><span class="badge bg-danger">Execution & Delivery</span></td>
-                                            <td>3-4 week fast-track execution with 8-10 dedicated team members</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>SVP of Sales</strong></td>
-                                            <td><span class="badge bg-danger">Account & Revenue</span></td>
-                                            <td>85% stakeholder buy-in and 5-8 account engagement strategy</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div style="display: grid; gap: 15px;">
+                                <!-- CEO -->
+                                <div style="border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="padding: 18px; border-left: 5px solid #dc3545;">
+                                        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+                                            <div>
+                                                <h6 style="font-size: 14px; font-weight: 700; color: #2d3436; margin: 0 0 8px 0;"><i class="fas fa-crown" style="color: #dc3545; margin-right: 8px;"></i> Chief Executive Officer</h6>
+                                                <span class="badge bg-danger" style="font-size: 11px; padding: 6px 10px;">C-Suite Strategic Lead</span>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 12px 0 0 0;"><strong>Responsibility:</strong> Overall business outcomes, strategic alignment, and board-level approval for all initiatives</p>
+                                    </div>
+                                </div>
+
+                                <!-- CFO -->
+                                <div style="border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="padding: 18px; border-left: 5px solid #28a745;">
+                                        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+                                            <div>
+                                                <h6 style="font-size: 14px; font-weight: 700; color: #2d3436; margin: 0 0 8px 0;"><i class="fas fa-money-bill-wave" style="color: #28a745; margin-right: 8px;"></i> Chief Financial Officer</h6>
+                                                <span class="badge bg-success" style="font-size: 11px; padding: 6px 10px;">Finance & Investment</span>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 12px 0 0 0;"><strong>Responsibility:</strong> Budget allocation ($50K-$75K), ROI validation ($500K+), and financial governance</p>
+                                    </div>
+                                </div>
+
+                                <!-- CTO -->
+                                <div style="border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="padding: 18px; border-left: 5px solid #0066cc;">
+                                        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+                                            <div>
+                                                <h6 style="font-size: 14px; font-weight: 700; color: #2d3436; margin: 0 0 8px 0;"><i class="fas fa-server" style="color: #0066cc; margin-right: 8px;"></i> Chief Technology Officer</h6>
+                                                <span class="badge" style="background: #0066cc; font-size: 11px; padding: 6px 10px;">Technical Governance</span>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 12px 0 0 0;"><strong>Responsibility:</strong> Infrastructure feasibility assessment and resolution of 2-3 critical dependencies</p>
+                                    </div>
+                                </div>
+
+                                <!-- VP Operations -->
+                                <div style="border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="padding: 18px; border-left: 5px solid #17a2b8;">
+                                        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+                                            <div>
+                                                <h6 style="font-size: 14px; font-weight: 700; color: #2d3436; margin: 0 0 8px 0;"><i class="fas fa-cogs" style="color: #17a2b8; margin-right: 8px;"></i> VP of Operations</h6>
+                                                <span class="badge bg-info" style="font-size: 11px; padding: 6px 10px;">Execution & Delivery</span>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 12px 0 0 0;"><strong>Responsibility:</strong> 3-4 week fast-track execution management with 8-10 dedicated team members</p>
+                                    </div>
+                                </div>
+
+                                <!-- SVP Sales -->
+                                <div style="border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="padding: 18px; border-left: 5px solid #ffc107;">
+                                        <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+                                            <div>
+                                                <h6 style="font-size: 14px; font-weight: 700; color: #2d3436; margin: 0 0 8px 0;"><i class="fas fa-chart-line" style="color: #ffc107; margin-right: 8px;"></i> SVP of Sales</h6>
+                                                <span class="badge bg-warning" style="font-size: 11px; padding: 6px 10px; color: #333;">Account & Revenue</span>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 12px 0 0 0;"><strong>Responsibility:</strong> Stakeholder buy-in (85%+) and engagement strategy across 5-8 key accounts</p>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Feed Back Tab -->
+                    <div class="tab-pane fade" id="feedback" role="tabpanel">
+                        <div style="margin-bottom: 20px;">
+                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 16px;"><i class="fas fa-comments"></i> Feedback & Insights</h5>
+                            <p style="font-size: 12px; color: #666; margin-bottom: 20px; padding: 12px 14px; background: #fff8f0; border-left: 4px solid #ffc107; border-radius: 4px;"><strong>Stakeholder Feedback</strong> — Collect and track feedback from stakeholders, team members, and clients on initiatives and execution</p>
                             
-                            <!-- MEDIUM PRIORITY EXECUTIVES -->
-                            <div style="margin-bottom: 25px;">
-                                <h6 style="font-size: 13px; font-weight: 600; color: #ffc107; margin-bottom: 12px;"><i class="fas fa-star"></i> MEDIUM PRIORITY EXECUTIVES</h6>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 30%;"><i class="fas fa-user-tie"></i> Executive Name</th>
-                                            <th style="width: 25%;"><i class="fas fa-briefcase"></i> Role</th>
-                                            <th style="width: 45%;"><i class="fas fa-star"></i> Why Selected</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size: 12px;">
-                                        <tr>
-                                            <td><strong>Vice President Operations</strong></td>
-                                            <td><span class="badge bg-warning">Program Management</span></td>
-                                            <td>2-3 week timeline management and resource allocation oversight</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Senior Director Finance</strong></td>
-                                            <td><span class="badge bg-warning">Budget Governance</span></td>
-                                            <td>$25K-$40K investment approval and $200K-$300K value tracking</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Director Technology</strong></td>
-                                            <td><span class="badge bg-warning">Technical Integration</span></td>
-                                            <td>System architecture and 1-2 moderate dependency management</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Director Sales Operations</strong></td>
-                                            <td><span class="badge bg-warning">Account Coordination</span></td>
-                                            <td>Cross-functional 3-5 account engagement and stakeholder alignment</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Manager Strategic Planning</strong></td>
-                                            <td><span class="badge bg-warning">Metrics & Reporting</span></td>
-                                            <td>Monthly progress reviews and success rate delivery (75%)</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <!-- LOW PRIORITY EXECUTIVES -->
-                            <div>
-                                <h6 style="font-size: 13px; font-weight: 600; color: #6c757d; margin-bottom: 12px;"><i class="fas fa-check-circle"></i> LOW PRIORITY EXECUTIVES</h6>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 30%;"><i class="fas fa-user-tie"></i> Executive Name</th>
-                                            <th style="width: 25%;"><i class="fas fa-briefcase"></i> Role</th>
-                                            <th style="width: 45%;"><i class="fas fa-star"></i> Why Selected</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size: 12px;">
-                                        <tr>
-                                            <td><strong>Senior Manager Operations</strong></td>
-                                            <td><span class="badge bg-secondary">Tactical Execution</span></td>
-                                            <td>1-2 week delivery cycle with minimal resource requirement (40%)</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Manager Finance</strong></td>
-                                            <td><span class="badge bg-secondary">Budget Administration</span></td>
-                                            <td>$10K-$20K cost efficiency and quick payback period validation</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Technical Lead</strong></td>
-                                            <td><span class="badge bg-secondary">Implementation Support</span></td>
-                                            <td>Standard integration support with 0-1 minor dependencies</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Account Manager</strong></td>
-                                            <td><span class="badge bg-secondary">Customer Success</span></td>
-                                            <td>1-3 account coordination and satisfaction metrics (70% success)</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Project Coordinator</strong></td>
-                                            <td><span class="badge bg-secondary">Communications</span></td>
-                                            <td>Bi-weekly stakeholder updates and progress transparency</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div style="display: grid; gap: 12px;">
+                                <!-- Feedback Card 1 -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #ffc107; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-comment-dots" style="color: #ffc107; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Client Testimonials</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">Gather feedback from clients on solution effectiveness and business impact</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Feedback Card 2 -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #0066cc; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-star" style="color: #0066cc; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Performance Ratings</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">Track ratings for execution quality, vendor capability, and overall satisfaction</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Feedback Card 3 -->
+                                <div style="padding: 16px; background: #fff; border: 1px solid #e5e5e5; border-left: 5px solid #28a745; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                        <i class="fas fa-lightbulb" style="color: #28a745; font-size: 16px; margin-top: 2px; min-width: 20px;"></i>
+                                        <div style="flex: 1;">
+                                            <h6 style="font-size: 13px; font-weight: 700; color: #2d3436; margin: 0 0 6px 0;">Improvement Suggestions</h6>
+                                            <p style="font-size: 12px; color: #555; line-height: 1.6; margin: 0;">Capture suggestions for process improvements and future enhancement opportunities</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
