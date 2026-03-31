@@ -68,6 +68,15 @@ def competitor_analysis(request):
     return render(request, 'dashboard/competitor_analysis.html', context)
 
 
+def contract_analysis(request):
+    """Contract Analysis view"""
+    context = {
+        'page_title': 'Contract Analysis',
+        'page_icon': 'fas fa-file-signature',
+    }
+    return render(request, 'dashboard/contract_analysis.html', context)
+
+
 def vendor_mapping(request):
     """Vendor Mapping view"""
     context = {

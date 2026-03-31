@@ -48,6 +48,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contract_analysis' %}active{% endif %}" href="{% url 'dashboard:contract_analysis' %}">
+                        <i class="fas fa-file-signature"></i>
+                        <span>Contract Analysis</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'vendor_mapping' %}active{% endif %}" href="{% url 'dashboard:vendor_mapping' %}">
                         <i class="fas fa-map"></i>
                         <span>Vendor Mapping</span>

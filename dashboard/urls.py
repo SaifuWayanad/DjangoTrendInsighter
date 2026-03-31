@@ -9,6 +9,7 @@ urlpatterns = [
     path('my-accounts/', views.my_accounts, name='my_accounts'),
     path('trend-insighter/', views.trend_insighter, name='trend_insighter'),
     path('competitor-analysis/', views.competitor_analysis, name='competitor_analysis'),
+    path('contract-analysis/', views.contract_analysis, name='contract_analysis'),
     path('vendor-mapping/', views.vendor_mapping, name='vendor_mapping'),
     path('generate-plays/', views.generate_plays, name='generate_plays'),
     path('stake-holders/', views.stake_holders, name='stake_holders'),

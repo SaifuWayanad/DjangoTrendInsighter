@@ -1,0 +1,593 @@
+{% extends 'base.html' %}
+
+{% block title %}Contract Analysis - TrendInsighter{% endblock %}
+
+{% block content %}
+<style>
+    .page-header { margin-bottom: 24px; }
+    .analysis-card { border: 1px solid #e5e5e5; border-radius: 18px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06); overflow: hidden; }
+    .analysis-card .card-header { background: linear-gradient(135deg, #f8f9fa 0%, #eef3f7 100%); border-bottom: 1px solid #dde5ec; padding: 18px 20px; }
+    .analysis-card .card-header h5 { color: #1f2933; font-size: 15px; font-weight: 700; margin: 0; }
+    .filter-card { border: 1px solid #e5e5e5; border-radius: 18px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06); margin-bottom: 16px; }
+    .filter-label { font-size: 13px; font-weight: 500; color: #2d3436; margin-bottom: 6px; }
+    .filter-select { font-size: 13px; border-color: #ddd; }
+    .filter-button { background: #2d3436; border-color: #2d3436; font-size: 13px; padding: 10px 16px; border-radius: 12px; }
+    .filter-button:hover { background: #1a1f26; border-color: #1a1f26; }
+    .metric-card { background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1px solid #dde5ec; border-radius: 18px; padding: 20px; height: 100%; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05); }
+    .metric-card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #52606d; margin-bottom: 14px; line-height: 1.5; }
+    .metric-card h4 { margin: 0; font-size: 36px; color: #102a43; font-weight: 700; line-height: 1.1; }
+    .table { font-size: 13px; margin-bottom: 0; }
+    .table thead th { background: #f8f9fa; border: none; border-bottom: 2px solid #e5e5e5; color: #2d3436; font-weight: 600; padding: 10px 12px; }
+    .table tbody td { border-bottom: 1px solid #f0f0f0; padding: 10px 12px; }
+    .profile-panel { padding: 20px; }
+    .profile-summary { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .profile-avatar { width: 52px; height: 52px; border-radius: 16px; background: #ecf1f5; color: #102a43; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .profile-summary h6 { margin: 0; font-size: 18px; color: #102a43; font-weight: 700; }
+    .profile-summary p { margin: 4px 0 0 0; font-size: 12px; color: #7b8794; }
+    .profile-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .profile-item { background: #f8fafc; border: 1px solid #e6edf3; border-radius: 14px; padding: 14px; }
+    .profile-item span { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #7b8794; margin-bottom: 6px; }
+    .profile-item strong { display: block; font-size: 15px; color: #102a43; font-weight: 700; }
+    .profile-item small { display: block; margin-top: 4px; font-size: 12px; color: #52606d; }
+    .badge-soft { background: #eef1f3; color: #2d3436; font-size: 11px; padding: 4px 8px; border-radius: 999px; }
+    .checklist li { font-size: 13px; margin-bottom: 10px; }
+    @media (max-width: 767px) {
+        .profile-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<div class="page-header">
+    <h1><i class="fas fa-file-signature"></i> Contract Analysis</h1>
+    <p class="text-muted" style="font-size: 13px;">Review obligations, renewal risks, and commercial terms across active agreements.</p>
+</div>
+
+<div class="card filter-card">
+    <div class="card-body p-3">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="companyFilter" class="filter-label">Company</label>
+                <select id="companyFilter" class="form-select filter-select">
+                    <option value="">Select Company</option>
+                    <option value="NorthPeak Systems">NorthPeak Systems</option>
+                    <option value="Blue Harbor Group">Blue Harbor Group</option>
+                    <option value="Vertex Retail">Vertex Retail</option>
+                    <option value="Lumen Grid">Lumen Grid</option>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label for="vendorFilter" class="filter-label">Vendor</label>
+                <select id="vendorFilter" class="form-select filter-select">
+                    <option value="">Select Vendor</option>
+                    <option value="Meridian Labs">Meridian Labs</option>
+                    <option value="CloudSpan Tech">CloudSpan Tech</option>
+                    <option value="Apex Legal Ops">Apex Legal Ops</option>
+                    <option value="NovaSource Data">NovaSource Data</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="button" class="btn btn-primary filter-button">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-6">
+        <div class="card analysis-card">
+            <div class="card-header py-3 px-3">
+                <h5><i class="fas fa-building"></i> Company Profile</h5>
+            </div>
+            <div class="card-body profile-panel">
+                <div class="profile-summary">
+                    <div class="profile-avatar">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div>
+                        <h6>NorthPeak Systems</h6>
+                        <p>Primary account profile used for contract review and commercial analysis.</p>
+                    </div>
+                </div>
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <span>Region</span>
+                        <strong>USA</strong>
+                        <small>North America</small>
+                    </div>
+                    <div class="profile-item">
+                        <span>Country</span>
+                        <strong>USA</strong>
+                        <small>Domestic legal entity</small>
+                    </div>
+                    <div class="profile-item">
+                        <span>Company Industry</span>
+                        <strong>Technology</strong>
+                        <small>Cloud and enterprise platforms</small>
+                    </div>
+                    <div class="profile-item">
+                        <span>Primary Sector</span>
+                        <strong>Enterprise Software</strong>
+                        <small>Recurring subscription business</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card analysis-card">
+            <div class="card-header py-3 px-3">
+                <h5><i class="fas fa-handshake"></i> Vendor Profile</h5>
+            </div>
+            <div class="card-body profile-panel">
+                <div class="profile-summary">
+                    <div class="profile-avatar">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div>
+                        <h6>Meridian Labs</h6>
+                        <p>Strategic vendor profile aligned to the selected contract and renewal timeline.</p>
+                    </div>
+                </div>
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <span>Region</span>
+                        <strong>USA</strong>
+                        <small>Service delivery region</small>
+                    </div>
+                    <div class="profile-item">
+                        <span>Country</span>
+                        <strong>USA</strong>
+                        <small>Vendor registration country</small>
+                    </div>
+                    <div class="profile-item">
+                        <span>Company Industry</span>
+                        <strong>Professional Services</strong>
+                        <small>Managed delivery and support</small>
+                    </div>
+                    <div class="profile-item">
+                        <span>Primary Sector</span>
+                        <strong>Legal Operations</strong>
+                        <small>Contract review enablement</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Expiry Tabs -->
+<style>
+    /* ── Tab selector cards ── */
+    .expiry-tab-selector { display: flex; gap: 12px; margin-bottom: 0; flex-wrap: wrap; }
+    .expiry-tab-btn {
+        flex: 1; min-width: 180px; background: #fff; border: 2px solid #e5e5e5;
+        border-radius: 16px; padding: 16px 20px; cursor: pointer; text-align: left;
+        transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(15,23,42,0.04);
+        position: relative; overflow: hidden;
+    }
+    .expiry-tab-btn::before {
+        content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 16px 0 0 16px;
+    }
+    .expiry-tab-btn.danger::before  { background: #e53e3e; }
+    .expiry-tab-btn.warning::before { background: #dd6b20; }
+    .expiry-tab-btn.success::before { background: #276749; }
+    .expiry-tab-btn.active.danger  { border-color: #e53e3e; background: #fff5f5; box-shadow: 0 6px 20px rgba(229,62,62,0.15); }
+    .expiry-tab-btn.active.warning { border-color: #dd6b20; background: #fffaf0; box-shadow: 0 6px 20px rgba(221,107,32,0.15); }
+    .expiry-tab-btn.active.success { border-color: #276749; background: #f0fff4; box-shadow: 0 6px 20px rgba(39,103,73,0.15); }
+    .expiry-tab-btn:hover:not(.active) { border-color: #cbd5e0; box-shadow: 0 6px 18px rgba(15,23,42,0.09); transform: translateY(-1px); }
+    .expiry-tab-btn .tab-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #7b8794; margin-bottom: 6px; }
+    .expiry-tab-btn .tab-title { font-size: 15px; font-weight: 700; color: #102a43; margin-bottom: 8px; }
+    .expiry-tab-btn .tab-count {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 28px; height: 28px; border-radius: 50%; font-size: 13px; font-weight: 700;
+    }
+    .expiry-tab-btn.danger  .tab-count { background: #fed7d7; color: #c53030; }
+    .expiry-tab-btn.warning .tab-count { background: #feebc8; color: #c05621; }
+    .expiry-tab-btn.success .tab-count { background: #c6f6d5; color: #276749; }
+    .expiry-tab-btn .tab-icon { font-size: 22px; float: right; opacity: 0.18; margin-top: -2px; }
+    .expiry-tab-btn.danger  .tab-icon { color: #e53e3e; }
+    .expiry-tab-btn.warning .tab-icon { color: #dd6b20; }
+    .expiry-tab-btn.success .tab-icon { color: #276749; }
+
+    /* ── Tab content panel ── */
+    .expiry-tab-panel { display: none; }
+    .expiry-tab-panel.active { display: block; }
+    .expiry-panel-card {
+        border: 2px solid #e5e5e5; border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(15,23,42,0.07); overflow: hidden; background: #fff;
+    }
+    .expiry-panel-card.danger  { border-color: #fbd5d5; }
+    .expiry-panel-card.warning { border-color: #fcd9b6; }
+    .expiry-panel-card.success { border-color: #b2f2d0; }
+
+    /* ── Panel header ── */
+    .expiry-panel-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 16px 20px; border-bottom: 1px solid #f0f0f0;
+    }
+    .expiry-panel-header.danger  { background: linear-gradient(135deg, #fff5f5, #ffe4e4); }
+    .expiry-panel-header.warning { background: linear-gradient(135deg, #fffaf0, #feeccc); }
+    .expiry-panel-header.success { background: linear-gradient(135deg, #f0fff4, #c6f6d5); }
+    .expiry-panel-header h6 { margin: 0; font-size: 14px; font-weight: 700; color: #102a43; }
+    .expiry-panel-header p  { margin: 2px 0 0 0; font-size: 12px; color: #7b8794; }
+
+    /* ── Urgency badge ── */
+    .urgency-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+    }
+    .urgency-badge.danger  { background: #fed7d7; color: #c53030; }
+    .urgency-badge.warning { background: #feebc8; color: #c05621; }
+    .urgency-badge.success { background: #c6f6d5; color: #276749; }
+
+    /* ── Expiry table ── */
+    .expiry-table { font-size: 13px; margin-bottom: 0; width: 100%; }
+    .expiry-table thead th {
+        background: #f8fafc; font-size: 11px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: 0.07em; color: #52606d; padding: 11px 14px;
+        border-bottom: 2px solid #e5e7eb; white-space: nowrap;
+    }
+    .expiry-table tbody tr { transition: background 0.15s; }
+    .expiry-table tbody tr:hover { background: #f7fafc; }
+    .expiry-table tbody td { padding: 13px 14px; border-bottom: 1px solid #f0f4f8; vertical-align: middle; }
+    .expiry-table tbody tr:last-child td { border-bottom: none; }
+
+    /* provider avatar */
+    .provider-cell { display: flex; align-items: center; gap: 10px; }
+    .provider-avatar {
+        width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 13px; font-weight: 800; color: #fff;
+    }
+    .provider-name { font-weight: 600; color: #102a43; font-size: 13px; }
+
+    /* domain pill */
+    .domain-pill {
+        display: inline-block; background: #eef3f9; color: #3a5577;
+        font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
+    }
+
+    /* financial value */
+    .fin-val { font-weight: 700; color: #102a43; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+    .fin-sub { font-size: 11px; color: #7b8794; }
+
+    /* contact cell */
+    .contact-cell { display: flex; align-items: center; gap: 8px; }
+    .contact-initials {
+        width: 28px; height: 28px; border-radius: 50%; background: #e8edf3;
+        color: #3a5577; font-size: 10px; font-weight: 800; display: flex;
+        align-items: center; justify-content: center; flex-shrink: 0; text-transform: uppercase;
+    }
+
+    @media (max-width: 767px) {
+        .expiry-tab-selector { flex-direction: column; }
+        .expiry-tab-btn { min-width: unset; }
+    }
+</style>
+
+<div class="mt-4">
+    <!-- Tab selector pills -->
+    <div class="expiry-tab-selector mb-3">
+        <button class="expiry-tab-btn danger active" onclick="switchExpiryTab('90', this)">
+            <i class="fas fa-exclamation-triangle tab-icon"></i>
+            <div class="tab-label">Urgent Action</div>
+            <div class="tab-title">Expires in 90 Days</div>
+            <span class="tab-count">3</span>
+        </button>
+        <button class="expiry-tab-btn warning" onclick="switchExpiryTab('160', this)">
+            <i class="fas fa-clock tab-icon"></i>
+            <div class="tab-label">Review Soon</div>
+            <div class="tab-title">Expires in 160 Days</div>
+            <span class="tab-count">3</span>
+        </button>
+        <button class="expiry-tab-btn success" onclick="switchExpiryTab('360', this)">
+            <i class="fas fa-calendar-check tab-icon"></i>
+            <div class="tab-label">Plan Ahead</div>
+            <div class="tab-title">Expires in 360 Days</div>
+            <span class="tab-count">3</span>
+        </button>
+    </div>
+
+    <!-- 90 Days Panel -->
+    <div class="expiry-tab-panel active" id="expiry-panel-90">
+        <div class="expiry-panel-card danger">
+            <div class="expiry-panel-header danger">
+                <div>
+                    <h6><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Contracts Expiring in 90 Days</h6>
+                    <p>Immediate renewal action required for these agreements.</p>
+                </div>
+                <span class="urgency-badge danger"><i class="fas fa-fire"></i> High Urgency</span>
+            </div>
+            <div class="table-responsive">
+                <table class="expiry-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Service Provider</th>
+                            <th>Domain</th>
+                            <th>TCV</th>
+                            <th>ACV</th>
+                            <th>Announce Day</th>
+                            <th>Contract Start Day</th>
+                            <th>Length (M)</th>
+                            <th>Client Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">01</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#e53e3e;">ML</div>
+                                    <span class="provider-name">Meridian Labs</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">Cloud Infrastructure</span></td>
+                            <td><div class="fin-val">$1,200,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$400,000</div></td>
+                            <td>Jan 5, 2024</td>
+                            <td>Feb 1, 2024</td>
+                            <td><span style="font-weight:700;color:#102a43;">36</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">SM</div>
+                                    Sarah Mitchell
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">02</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#3182ce;">CT</div>
+                                    <span class="provider-name">CloudSpan Tech</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">Managed Security</span></td>
+                            <td><div class="fin-val">$850,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$283,333</div></td>
+                            <td>Dec 10, 2023</td>
+                            <td>Jan 1, 2024</td>
+                            <td><span style="font-weight:700;color:#102a43;">36</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">JO</div>
+                                    James Okafor
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">03</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#805ad5;">AL</div>
+                                    <span class="provider-name">Apex Legal Ops</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">Legal &amp; Compliance</span></td>
+                            <td><div class="fin-val">$540,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$180,000</div></td>
+                            <td>Mar 20, 2024</td>
+                            <td>Apr 1, 2024</td>
+                            <td><span style="font-weight:700;color:#102a43;">24</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">LP</div>
+                                    Linda Park
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 160 Days Panel -->
+    <div class="expiry-tab-panel" id="expiry-panel-160">
+        <div class="expiry-panel-card warning">
+            <div class="expiry-panel-header warning">
+                <div>
+                    <h6><i class="fas fa-clock me-2 text-warning"></i>Contracts Expiring in 160 Days</h6>
+                    <p>Schedule renewal reviews within the next 60 days.</p>
+                </div>
+                <span class="urgency-badge warning"><i class="fas fa-hourglass-half"></i> Medium Urgency</span>
+            </div>
+            <div class="table-responsive">
+                <table class="expiry-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Service Provider</th>
+                            <th>Domain</th>
+                            <th>TCV</th>
+                            <th>ACV</th>
+                            <th>Announce Day</th>
+                            <th>Contract Start Day</th>
+                            <th>Length (M)</th>
+                            <th>Client Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">01</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#319795;">ND</div>
+                                    <span class="provider-name">NovaSource Data</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">Data Analytics</span></td>
+                            <td><div class="fin-val">$2,100,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$700,000</div></td>
+                            <td>Jun 15, 2023</td>
+                            <td>Jul 1, 2023</td>
+                            <td><span style="font-weight:700;color:#102a43;">48</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">RC</div>
+                                    Robert Chen
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">02</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#e53e3e;">ML</div>
+                                    <span class="provider-name">Meridian Labs</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">DevOps Automation</span></td>
+                            <td><div class="fin-val">$960,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$320,000</div></td>
+                            <td>Aug 3, 2023</td>
+                            <td>Sep 1, 2023</td>
+                            <td><span style="font-weight:700;color:#102a43;">36</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">AT</div>
+                                    Angela Torres
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">03</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#3182ce;">CT</div>
+                                    <span class="provider-name">CloudSpan Tech</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">ERP Integration</span></td>
+                            <td><div class="fin-val">$1,500,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$375,000</div></td>
+                            <td>May 20, 2023</td>
+                            <td>Jun 1, 2023</td>
+                            <td><span style="font-weight:700;color:#102a43;">48</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">DN</div>
+                                    David Nkosi
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 360 Days Panel -->
+    <div class="expiry-tab-panel" id="expiry-panel-360">
+        <div class="expiry-panel-card success">
+            <div class="expiry-panel-header success">
+                <div>
+                    <h6><i class="fas fa-calendar-check me-2 text-success"></i>Contracts Expiring in 360 Days</h6>
+                    <p>Begin early-stage planning and vendor engagement strategies.</p>
+                </div>
+                <span class="urgency-badge success"><i class="fas fa-leaf"></i> Low Urgency</span>
+            </div>
+            <div class="table-responsive">
+                <table class="expiry-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Service Provider</th>
+                            <th>Domain</th>
+                            <th>TCV</th>
+                            <th>ACV</th>
+                            <th>Announce Day</th>
+                            <th>Contract Start Day</th>
+                            <th>Length (M)</th>
+                            <th>Client Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">01</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#805ad5;">AL</div>
+                                    <span class="provider-name">Apex Legal Ops</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">Cybersecurity</span></td>
+                            <td><div class="fin-val">$3,600,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$900,000</div></td>
+                            <td>Feb 10, 2023</td>
+                            <td>Mar 1, 2023</td>
+                            <td><span style="font-weight:700;color:#102a43;">48</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">PS</div>
+                                    Priya Sharma
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">02</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#319795;">ND</div>
+                                    <span class="provider-name">NovaSource Data</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">AI &amp; Machine Learning</span></td>
+                            <td><div class="fin-val">$4,200,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$840,000</div></td>
+                            <td>Jan 12, 2023</td>
+                            <td>Feb 1, 2023</td>
+                            <td><span style="font-weight:700;color:#102a43;">60</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">MH</div>
+                                    Michael Han
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#cbd5e0;font-weight:600;">03</td>
+                            <td>
+                                <div class="provider-cell">
+                                    <div class="provider-avatar" style="background:#e53e3e;">ML</div>
+                                    <span class="provider-name">Meridian Labs</span>
+                                </div>
+                            </td>
+                            <td><span class="domain-pill">Network Operations</span></td>
+                            <td><div class="fin-val">$1,800,000</div><div class="fin-sub">Total contract</div></td>
+                            <td><div class="fin-val">$600,000</div></td>
+                            <td>Apr 5, 2023</td>
+                            <td>May 1, 2023</td>
+                            <td><span style="font-weight:700;color:#102a43;">36</span></td>
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-initials">KW</div>
+                                    Karen Williams
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function switchExpiryTab(key, btn) {
+    // deactivate all buttons
+    document.querySelectorAll('.expiry-tab-btn').forEach(b => b.classList.remove('active'));
+    // hide all panels
+    document.querySelectorAll('.expiry-tab-panel').forEach(p => p.classList.remove('active'));
+    // activate clicked button and matching panel
+    btn.classList.add('active');
+    document.getElementById('expiry-panel-' + key).classList.add('active');
+}
+</script>
+
+
+{% endblock %}
