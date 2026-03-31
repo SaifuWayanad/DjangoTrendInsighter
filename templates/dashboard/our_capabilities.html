@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Capabilities - TrendInsighter{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-star"></i> Our Capabilities</h1>
+    <p class="text-muted">Discover our platform capabilities and features</p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-5">
+                        <label for="platformFilter" class="form-label"><i class="fas fa-server"></i> Filter by Platform</label>
+                        <select class="form-select" id="platformFilter">
+                            <option value="">All Platforms</option>
+                            <option value="Cloud Suite">Cloud Suite</option>
+                            <option value="Analytics Engine">Analytics Engine</option>
+                            <option value="Integration Hub">Integration Hub</option>
+                            <option value="Mobile App">Mobile App</option>
+                            <option value="API Gateway">API Gateway</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="personFilter" class="form-label"><i class="fas fa-user-circle"></i> Filter by Owner</label>
+                        <select class="form-select" id="personFilter">
+                            <option value="">All Owners</option>
+                            <option value="Sarah Chen">Sarah Chen</option>
+                            <option value="Michael Rodriguez">Michael Rodriguez</option>
+                            <option value="Jessica Park">Jessica Park</option>
+                            <option value="David Thompson">David Thompson</option>
+                            <option value="Amanda Foster">Amanda Foster</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button class="btn btn-primary w-100" id="filterBtn"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead style="background: linear-gradient(135deg, var(--primary-color) 0%, #1a5f7a 100%); color: white;">
+                            <tr>
+                                <th style="font-weight: 600; padding: 15px;"><i class="fas fa-server"></i> Platform</th>
+                                <th style="font-weight: 600; padding: 15px;"><i class="fas fa-lightbulb"></i> Capability Name</th>
+                                <th style="font-weight: 600; padding: 15px;"><i class="fas fa-user-tie"></i> Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-info">Cloud Suite</span></td>
+                                <td><strong>Real-time Data Sync</strong></td>
+                                <td>Sarah Chen</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">Cloud Suite</span></td>
+                                <td><strong>Multi-tenant Support</strong></td>
+                                <td>Sarah Chen</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">Analytics Engine</span></td>
+                                <td><strong>Predictive Analytics</strong></td>
+                                <td>Michael Rodriguez</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">Analytics Engine</span></td>
+                                <td><strong>Custom Dashboards</strong></td>
+                                <td>Michael Rodriguez</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Integration Hub</span></td>
+                                <td><strong>Third-party API Integration</strong></td>
+                                <td>Jessica Park</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Integration Hub</span></td>
+                                <td><strong>Webhook Support</strong></td>
+                                <td>Jessica Park</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-danger">Mobile App</span></td>
+                                <td><strong>iOS & Android Support</strong></td>
+                                <td>David Thompson</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-danger">Mobile App</span></td>
+                                <td><strong>Offline Mode</strong></td>
+                                <td>David Thompson</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-secondary">API Gateway</span></td>
+                                <td><strong>Rate Limiting Control</strong></td>
+                                <td>Amanda Foster</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-secondary">API Gateway</span></td>
+                                <td><strong>OAuth 2.0 Authentication</strong></td>
+                                <td>Amanda Foster</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('filterBtn').addEventListener('click', function() {
+    const platformFilter = document.getElementById('platformFilter').value.toLowerCase();
+    const personFilter = document.getElementById('personFilter').value.toLowerCase();
+    const tableRows = document.querySelectorAll('tbody tr');
+    
+    tableRows.forEach(row => {
+        const platform = row.cells[0].textContent.toLowerCase();
+        const owner = row.cells[2].textContent.toLowerCase();
+        
+        let showRow = true;
+        
+        if (platformFilter && !platform.includes(platformFilter)) {
+            showRow = false;
+        }
+        
+        if (personFilter && !owner.includes(personFilter)) {
+            showRow = false;
+        }
+        
+        row.style.display = showRow ? '' : 'none';
+    });
+});
+
+// Allow filtering on Enter key as well
+document.getElementById('platformFilter').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') document.getElementById('filterBtn').click();
+});
+
+document.getElementById('personFilter').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') document.getElementById('filterBtn').click();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,668 @@
+{% extends 'base.html' %}
+
+{% block title %}Generate Plays - TrendInsighter{% endblock %}
+
+{% block content %}
+<style>
+    .page-header { margin-bottom: 24px; }
+    .card { border: 1px solid #e5e5e5; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .card-header { background: #f8f9fa; border-bottom: 2px solid #2d3436; padding: 12px 16px; }
+    .card-header h5 { color: #2d3436; font-size: 14px; font-weight: 600; margin: 0; }
+    .form-label { font-size: 13px; font-weight: 500; color: #2d3436; margin-bottom: 6px; }
+    .form-select { font-size: 13px; border-color: #ddd; }
+    .btn-primary { background: #2d3436; border-color: #2d3436; font-size: 13px; padding: 8px 16px; }
+    .btn-primary:hover { background: #1a1f26; border-color: #1a1f26; }
+    .table { font-size: 13px; margin-bottom: 0; }
+    .table thead th { background: #f8f9fa; border: none; border-bottom: 2px solid #e5e5e5; font-weight: 600; color: #2d3436; padding: 10px 12px; }
+    .table tbody td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+    .badge { font-size: 11px; padding: 4px 8px; }
+</style>
+
+<div class="page-header">
+    <h1><i class="fas fa-gamepad"></i> Generate Plays</h1>
+    <p class="text-muted" style="font-size: 13px;">Generate strategic plays and recommendations</p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row g-2 mb-3">
+                    <div class="col-md-4">
+                        <label for="accountFilter" class="form-label"><i class="fas fa-building"></i> Select Account</label>
+                        <select class="form-select" id="accountFilter">
+                            <option value="">All Accounts</option>
+                            <option value="Tech Ventures Inc">Tech Ventures Inc</option>
+                            <option value="Global Solutions Ltd">Global Solutions Ltd</option>
+                            <option value="Innovation Partners">Innovation Partners</option>
+                            <option value="Enterprise Group">Enterprise Group</option>
+                            <option value="Digital Dynamics">Digital Dynamics</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="priorityFilter" class="form-label"><i class="fas fa-signal"></i> Select Priority</label>
+                        <select class="form-select" id="priorityFilter">
+                            <option value="">All Priorities</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button class="btn btn-primary w-100" id="filterBtn"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+
+                
+
+                <div id="emptyState" class="text-center p-5">
+                    <i class="fas fa-gamepad" style="font-size: 48px; color: #ccc; margin-bottom: 16px;"></i>
+                    <p class="text-muted">Select account and priority to generate plays</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list"></i> Priority Summary: <span id="priorityBadge" class="badge bg-secondary">Not Selected</span></h5>
+            </div>
+            <div class="card-body p-3">
+                <div id="playsContent" style="display: none; margin-top: 16px;">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Play Title</th>
+                                    <th>Account</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody id="playsTable">
+                                <tr><td colspan="5" class="text-center text-muted">No plays found</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div id="priorityInfo" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
+                                <li><i class="fas fa-check-circle"></i> <strong id="priorityCount">0</strong> plays scheduled</li>
+                                <li><i class="fas fa-spinner"></i> <strong id="priorityProgress">0%</strong> completion rate</li>
+                                <li><i class="fas fa-clock"></i> Avg duration: <strong id="priorityDuration">N/A</strong></li>
+                                <li><i class="fas fa-chart-line"></i> Impact score: <strong id="priorityImpact">N/A</strong></li>
+                                <li><i class="fas fa-building"></i> Accounts affected: <strong id="priorityAccounts">N/A</strong></li>
+                                <li><i class="fas fa-code-branch"></i> Dependencies: <strong id="priorityDependencies">N/A</strong></li>
+                                <li><i class="fas fa-tachometer-alt"></i> Resource utilization: <strong id="priorityResources">N/A</strong></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
+                                <li><i class="fas fa-users"></i> Team size: <strong id="priorityTeam">N/A</strong></li>
+                                <li><i class="fas fa-dollar-sign"></i> Est. budget: <strong id="priorityBudget">N/A</strong></li>
+                                <li><i class="fas fa-target"></i> Success rate: <strong id="prioritySuccess">N/A</strong></li>
+                                <li><i class="fas fa-exclamation"></i> Risk level: <strong id="priorityRisk">N/A</strong></li>
+                                <li><i class="fas fa-handshake"></i> Stakeholder buy-in: <strong id="priorityStakeholder">N/A</strong></li>
+                                <li><i class="fas fa-list-check"></i> Deliverables: <strong id="priorityDeliverables">N/A</strong></li>
+                                <li><i class="fas fa-gem"></i> Value creation: <strong id="priorityValue">N/A</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="emptyPriority" class="text-center" style="padding: 30px 0;">
+                    <p class="text-muted" style="font-size: 13px;">Select a priority level to view summary details</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-lightbulb"></i> Strategic Insights</h5>
+            </div>
+            <div class="card-body p-3">
+                <ul class="nav nav-tabs mb-3" id="insightTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab"><i class="fas fa-handshake"></i> Sales Pitch</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="solutions-tab" data-bs-toggle="tab" data-bs-target="#solutions" type="button" role="tab"><i class="fas fa-cube"></i> Solutions</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="executives-tab" data-bs-toggle="tab" data-bs-target="#executives" type="button" role="tab"><i class="fas fa-user-tie"></i> Executives</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="insightTabContent">
+                    <!-- Sales Pitch Tab -->
+                    <div class="tab-pane fade show active" id="sales" role="tabpanel">
+                        <div style="margin-bottom: 20px;">
+                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 20px;"><i class="fas fa-handshake"></i> Sales Pitch & Messaging</h5>
+                            
+                            <!-- High Priority -->
+                            <div style="margin-bottom: 25px; padding: 15px; background: #fff5f5; border-left: 4px solid #dc3545; border-radius: 4px;">
+                                <h6 style="font-size: 13px; font-weight: 600; color: #dc3545; margin-bottom: 12px;"><i class="fas fa-fire"></i> HIGH PRIORITY</h6>
+                                <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
+                                    <li><strong><i class="fas fa-bullseye"></i> Primary Pitch:</strong> Transform business-critical operations with enterprise-grade strategic execution</li>
+                                    <li><strong><i class="fas fa-lightning-bolt"></i> Key Differentiator:</strong> Proven methodology delivers 65% completion rates on high-impact initiatives</li>
+                                    <li><strong><i class="fas fa-chart-line"></i> Business Impact:</strong> $500K+ ROI per initiative with measurable results in 3-4 weeks</li>
+                                    <li><strong><i class="fas fa-users"></i> Executive Alignment:</strong> 85% stakeholder buy-in with dedicated 8-10 person teams</li>
+                                    <li><strong><i class="fas fa-shield-alt"></i> Risk Mitigation:</strong> Comprehensive dependency management with 2-3 critical safeguards</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Medium Priority -->
+                            <div style="margin-bottom: 25px; padding: 15px; background: #fff8f0; border-left: 4px solid #ffc107; border-radius: 4px;">
+                                <h6 style="font-size: 13px; font-weight: 600; color: #ffc107; margin-bottom: 12px;"><i class="fas fa-star"></i> MEDIUM PRIORITY</h6>
+                                <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
+                                    <li><strong><i class="fas fa-bullseye"></i> Primary Pitch:</strong> Accelerate mid-level initiatives with balanced risk-reward approach</li>
+                                    <li><strong><i class="fas fa-cogs"></i> Key Differentiator:</strong> Proven track record with 45% completion rates on moderate-complexity plays</li>
+                                    <li><strong><i class="fas fa-chart-line"></i> Business Impact:</strong> $200K-$300K ROI with streamlined 2-3 week execution cycles</li>
+                                    <li><strong><i class="fas fa-users"></i> Executive Alignment:</strong> 72% stakeholder support with lean 4-6 person teams</li>
+                                    <li><strong><i class="fas fa-balance-scale"></i> Risk Balance:</strong> Moderate risk profile with 1-2 dependency mitigations</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Low Priority -->
+                            <div style="padding: 15px; background: #f0f9ff; border-left: 4px solid #6c757d; border-radius: 4px;">
+                                <h6 style="font-size: 13px; font-weight: 600; color: #6c757d; margin-bottom: 12px;"><i class="fas fa-check-circle"></i> LOW PRIORITY</h6>
+                                <ul class="list-unstyled" style="font-size: 13px; line-height: 1.8;">
+                                    <li><strong><i class="fas fa-bullseye"></i> Primary Pitch:</strong> Optimize operations with quick-win, low-risk initiatives</li>
+                                    <li><strong><i class="fas fa-rocket"></i> Key Differentiator:</strong> Rapid deployment with 30% completion rates on foundational improvements</li>
+                                    <li><strong><i class="fas fa-chart-line"></i> Business Impact:</strong> $50K-$100K ROI with 1-2 week execution windows</li>
+                                    <li><strong><i class="fas fa-users"></i> Executive Alignment:</strong> 60% stakeholder engagement with focused 2-3 person teams</li>
+                                    <li><strong><i class="fas fa-check-circle"></i> Risk Profile:</strong> Low-risk execution with minimal dependencies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solutions Tab -->
+                    <div class="tab-pane fade" id="solutions" role="tabpanel">
+                        <div style="margin-bottom: 20px;">
+                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 20px;"><i class="fas fa-lightbulb"></i> Comprehensive Solutions</h5>
+                            
+                            <!-- HIGH PRIORITY SOLUTION -->
+                            <div style="margin-bottom: 30px; padding: 15px; background: #f8f9fa; border: 1px solid #e5e5e5; border-radius: 4px;">
+                                <h5 style="font-size: 13px; font-weight: 600; color: #2d3436; margin-bottom: 6px;">🏆 Enterprise Strategic Solutions</h5>
+                                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Comprehensive enterprise-grade platform designed for high-impact strategic initiatives with 95% resource utilization and 82% success rate</p>
+                                
+                                <div class="accordion" style="border: none;">
+                                    <div class="accordion-item" style="border: 1px solid #e5e5e5;">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#hCapabilities" style="font-size: 12px; font-weight: 500; color: #2d3436; padding: 10px;">
+                                                📋 Capabilities & Owners
+                                            </button>
+                                        </h2>
+                                        <div id="hCapabilities" class="accordion-collapse collapse show">
+                                            <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr><th>Capability</th><th>Owner</th></tr>
+                                                    </thead>
+                                                    <tbody style="font-size: 11px;">
+                                                        <tr><td><strong>Cloud Infrastructure - Enterprise Platform</strong></td><td><span class="badge bg-primary">VP of Infrastructure</span></td></tr>
+                                                        <tr><td><strong>Advanced Analytics & Intelligence Layer</strong></td><td><span class="badge bg-primary">Director of Data Strategy</span></td></tr>
+                                                        <tr><td><strong>Multi-layered Security & Compliance</strong></td><td><span class="badge bg-primary">Chief Security Officer</span></td></tr>
+                                                        <tr><td><strong>System Integration Backbone</strong></td><td><span class="badge bg-primary">VP of Integration Services</span></td></tr>
+                                                        <tr><td><strong>Dedicated Technical Support</strong></td><td><span class="badge bg-primary">Director of Customer Success</span></td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item" style="border: 1px solid #e5e5e5; margin-top: 8px;">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#hOverview" style="font-size: 12px; font-weight: 500; color: #2d3436; padding: 10px;">
+                                                🎯 Executive Overview & More Details
+                                            </button>
+                                        </h2>
+                                        <div id="hOverview" class="accordion-collapse collapse">
+                                            <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
+                                                <ul class="list-unstyled"><li>📌 <strong>Solution Summary:</strong> Enterprise-grade strategic platform delivering $500K+ ROI</li><li>📌 <strong>Vision:</strong> Transform critical business operations with proven methodology</li><li>📌 <strong>Objectives:</strong> 65% completion rate, 85% stakeholder buy-in, 3-4 week delivery</li><li>📌 <strong>Key Outcomes:</strong> Measurable business impact, reduced operational risk, accelerated growth</li><li>📌 <strong>Architecture:</strong> Microservices-based cloud platform with modular, scalable components</li><li>📌 <strong>Tech Stack:</strong> Kubernetes, Python/Java, PostgreSQL, Elasticsearch, Apache Kafka</li><li>📌 <strong>Timeline:</strong> 3-4 weeks end-to-end with dedicated 8-10 person team</li><li>📌 <strong>Cost:</strong> $50K-$75K investment with $500K+ ROI payback in 2-3 months</li></li></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- MEDIUM PRIORITY SOLUTION -->
+                            <div style="margin-bottom: 30px; padding: 15px; background: #f8f9fa; border: 1px solid #e5e5e5; border-radius: 4px;">
+                                <h5 style="font-size: 13px; font-weight: 600; color: #2d3436; margin-bottom: 6px;">⚡ Scalable Platform Architecture</h5>
+                                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Cloud-native solution with balanced resource allocation (70%) for mid-tier initiatives supporting 3-5 accounts</p>
+                                
+                                <div class="accordion" style="border: none;">
+                                    <div class="accordion-item" style="border: 1px solid #e5e5e5;">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#mCapabilities" style="font-size: 12px; font-weight: 500; color: #2d3436; padding: 10px;">
+                                                📋 Capabilities & Owners
+                                            </button>
+                                        </h2>
+                                        <div id="mCapabilities" class="accordion-collapse collapse show">
+                                            <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr><th>Capability</th><th>Owner</th></tr>
+                                                    </thead>
+                                                    <tbody style="font-size: 11px;">
+                                                        <tr><td><strong>Scalable Cloud Platform</strong></td><td><span class="badge bg-success">Senior Cloud Architect</span></td></tr>
+                                                        <tr><td><strong>Business Intelligence Platform</strong></td><td><span class="badge bg-success">Analytics Director</span></td></tr>
+                                                        <tr><td><strong>Standard Security Controls</strong></td><td><span class="badge bg-success">Security Manager</span></td></tr>
+                                                        <tr><td><strong>API-First Integration Services</strong></td><td><span class="badge bg-success">Integration Manager</span></td></tr>
+                                                        <tr><td><strong>Implementation & Enablement</strong></td><td><span class="badge bg-success">Professional Services Manager</span></td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item" style="border: 1px solid #e5e5e5; margin-top: 8px;">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mOverview" style="font-size: 12px; font-weight: 500; color: #2d3436; padding: 10px;">
+                                                🎯 Executive Overview & More Details
+                                            </button>
+                                        </h2>
+                                        <div id="mOverview" class="accordion-collapse collapse">
+                                            <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
+                                                <ul class="list-unstyled"><li>📌 <strong>Summary:</strong> Balanced platform delivering $200K-$300K ROI with moderate complexity</li><li>📌 <strong>Vision:</strong> Enable mid-tier initiatives with streamlined execution</li><li>📌 <strong>Objectives:</strong> 45% completion rate, 72% stakeholder alignment, 2-3 week delivery</li><li>📌 <strong>Outcomes:</strong> Measurable cost savings, improved efficiency, reduced manual work</li><li>📌 <strong>Architecture:</strong> Cloud-based modular architecture with pre-built connectors</li><li>📌 <strong>Tech Stack:</strong> Docker, Node.js, MongoDB, Redis, Apache NiFi</li><li>📌 <strong>Timeline:</strong> 2-3 weeks with standard team support and weekly check-ins</li><li>📌 <strong>Cost:</strong> $25K-$40K with monthly subscription and 3-4 month ROI payback</li></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- LOW PRIORITY SOLUTION -->
+                            <div style="padding: 15px; background: #f8f9fa; border: 1px solid #e5e5e5; border-radius: 4px;">
+                                <h5 style="font-size: 13px; font-weight: 600; color: #2d3436; margin-bottom: 6px;">🚀 Quick-Start Solution Modules</h5>
+                                <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Pre-packaged modular components with minimal resource requirements (40%) for foundational improvements across 1-3 accounts</p>
+                                
+                                <div class="accordion" style="border: none;">
+                                    <div class="accordion-item" style="border: 1px solid #e5e5e5;">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#lCapabilities" style="font-size: 12px; font-weight: 500; color: #2d3436; padding: 10px;">
+                                                📋 Capabilities & Owners
+                                            </button>
+                                        </h2>
+                                        <div id="lCapabilities" class="accordion-collapse collapse show">
+                                            <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr><th>Capability</th><th>Owner</th></tr>
+                                                    </thead>
+                                                    <tbody style="font-size: 11px;">
+                                                        <tr><td><strong>Pre-built Solution Modules</strong></td><td><span class="badge bg-secondary">Solution Manager</span></td></tr>
+                                                        <tr><td><strong>Self-Service Knowledge Base</strong></td><td><span class="badge bg-secondary">Documentation Specialist</span></td></tr>
+                                                        <tr><td><strong>Basic Security Controls</strong></td><td><span class="badge bg-secondary">Security Compliance Officer</span></td></tr>
+                                                        <tr><td><strong>Standard API Integrations</strong></td><td><span class="badge bg-secondary">Integration Specialist</span></td></tr>
+                                                        <tr><td><strong>Community & Email Support</strong></td><td><span class="badge bg-secondary">Support Administrator</span></td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item" style="border: 1px solid #e5e5e5; margin-top: 8px;">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#lOverview" style="font-size: 12px; font-weight: 500; color: #2d3436; padding: 10px;">
+                                                🎯 Executive Overview & More Details
+                                            </button>
+                                        </h2>
+                                        <div id="lOverview" class="accordion-collapse collapse">
+                                            <div class="accordion-body p-3" style="font-size: 12px; background: #fff;">
+                                                <ul class="list-unstyled"><li>📌 <strong>Summary:</strong> Lightweight modules delivering $50K-$100K value quickly</li><li>📌 <strong>Vision:</strong> Enable quick wins with minimal disruption</li><li>📌 <strong>Objectives:</strong> 30% completion rate, 60% stakeholder alignment, 1-2 week delivery</li><li>📌 <strong>Outcomes:</strong> Fast implementation, low risk, immediate productivity gains</li><li>📌 <strong>Architecture:</strong> Lightweight SaaS platform with modular design</li><li>📌 <strong>Tech Stack:</strong> Standard cloud services, pre-built connectors, mobile-friendly interface</li><li>📌 <strong>Timeline:</strong> 1-2 weeks with minimal team involvement and email support</li><li>📌 <strong>Cost:</strong> $10K-$20K with basic support and 1-2 month ROI payback</li></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Executives Tab -->
+                    <div class="tab-pane fade" id="executives" role="tabpanel">
+                        <div style="margin-bottom: 20px;">
+                            <h5 style="font-size: 14px; font-weight: 600; color: #2d3436; margin-bottom: 20px;"><i class="fas fa-user-tie"></i> Key Executive Stakeholders</h5>
+                            
+                            <!-- HIGH PRIORITY EXECUTIVES -->
+                            <div style="margin-bottom: 25px;">
+                                <h6 style="font-size: 13px; font-weight: 600; color: #dc3545; margin-bottom: 12px;"><i class="fas fa-fire"></i> HIGH PRIORITY EXECUTIVES</h6>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30%;"><i class="fas fa-user-tie"></i> Executive Name</th>
+                                            <th style="width: 25%;"><i class="fas fa-briefcase"></i> Role</th>
+                                            <th style="width: 45%;"><i class="fas fa-star"></i> Why Selected</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: 12px;">
+                                        <tr>
+                                            <td><strong>Chief Executive Officer</strong></td>
+                                            <td><span class="badge bg-danger">C-Suite Strategic Lead</span></td>
+                                            <td>Overall business outcomes, strategic alignment, and board-level approval</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Chief Financial Officer</strong></td>
+                                            <td><span class="badge bg-danger">Finance & Investment</span></td>
+                                            <td>$50K-$75K budget allocation and $500K+ ROI validation</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Chief Technology Officer</strong></td>
+                                            <td><span class="badge bg-danger">Technical Governance</span></td>
+                                            <td>Infrastructure feasibility and 2-3 critical dependency resolution</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>VP of Operations</strong></td>
+                                            <td><span class="badge bg-danger">Execution & Delivery</span></td>
+                                            <td>3-4 week fast-track execution with 8-10 dedicated team members</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>SVP of Sales</strong></td>
+                                            <td><span class="badge bg-danger">Account & Revenue</span></td>
+                                            <td>85% stakeholder buy-in and 5-8 account engagement strategy</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- MEDIUM PRIORITY EXECUTIVES -->
+                            <div style="margin-bottom: 25px;">
+                                <h6 style="font-size: 13px; font-weight: 600; color: #ffc107; margin-bottom: 12px;"><i class="fas fa-star"></i> MEDIUM PRIORITY EXECUTIVES</h6>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30%;"><i class="fas fa-user-tie"></i> Executive Name</th>
+                                            <th style="width: 25%;"><i class="fas fa-briefcase"></i> Role</th>
+                                            <th style="width: 45%;"><i class="fas fa-star"></i> Why Selected</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: 12px;">
+                                        <tr>
+                                            <td><strong>Vice President Operations</strong></td>
+                                            <td><span class="badge bg-warning">Program Management</span></td>
+                                            <td>2-3 week timeline management and resource allocation oversight</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Senior Director Finance</strong></td>
+                                            <td><span class="badge bg-warning">Budget Governance</span></td>
+                                            <td>$25K-$40K investment approval and $200K-$300K value tracking</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Director Technology</strong></td>
+                                            <td><span class="badge bg-warning">Technical Integration</span></td>
+                                            <td>System architecture and 1-2 moderate dependency management</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Director Sales Operations</strong></td>
+                                            <td><span class="badge bg-warning">Account Coordination</span></td>
+                                            <td>Cross-functional 3-5 account engagement and stakeholder alignment</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Manager Strategic Planning</strong></td>
+                                            <td><span class="badge bg-warning">Metrics & Reporting</span></td>
+                                            <td>Monthly progress reviews and success rate delivery (75%)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- LOW PRIORITY EXECUTIVES -->
+                            <div>
+                                <h6 style="font-size: 13px; font-weight: 600; color: #6c757d; margin-bottom: 12px;"><i class="fas fa-check-circle"></i> LOW PRIORITY EXECUTIVES</h6>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30%;"><i class="fas fa-user-tie"></i> Executive Name</th>
+                                            <th style="width: 25%;"><i class="fas fa-briefcase"></i> Role</th>
+                                            <th style="width: 45%;"><i class="fas fa-star"></i> Why Selected</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: 12px;">
+                                        <tr>
+                                            <td><strong>Senior Manager Operations</strong></td>
+                                            <td><span class="badge bg-secondary">Tactical Execution</span></td>
+                                            <td>1-2 week delivery cycle with minimal resource requirement (40%)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Manager Finance</strong></td>
+                                            <td><span class="badge bg-secondary">Budget Administration</span></td>
+                                            <td>$10K-$20K cost efficiency and quick payback period validation</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Technical Lead</strong></td>
+                                            <td><span class="badge bg-secondary">Implementation Support</span></td>
+                                            <td>Standard integration support with 0-1 minor dependencies</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Account Manager</strong></td>
+                                            <td><span class="badge bg-secondary">Customer Success</span></td>
+                                            <td>1-3 account coordination and satisfaction metrics (70% success)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Project Coordinator</strong></td>
+                                            <td><span class="badge bg-secondary">Communications</span></td>
+                                            <td>Bi-weekly stakeholder updates and progress transparency</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const playsData = {
+    'Tech Ventures Inc': {
+        'High': [
+            { title: 'Expand Cloud Infrastructure', account: 'Tech Ventures Inc', priority: 'High', status: 'Active', created: '2026-03-15' },
+            { title: 'AI/ML Integration Strategy', account: 'Tech Ventures Inc', priority: 'High', status: 'In Progress', created: '2026-03-10' }
+        ],
+        'Medium': [
+            { title: 'API Security Enhancement', account: 'Tech Ventures Inc', priority: 'Medium', status: 'Active', created: '2026-03-12' }
+        ],
+        'Low': [
+            { title: 'Documentation Updates', account: 'Tech Ventures Inc', priority: 'Low', status: 'Planned', created: '2026-03-08' }
+        ]
+    },
+    'Global Solutions Ltd': {
+        'High': [
+            { title: 'Digital Transformation Initiative', account: 'Global Solutions Ltd', priority: 'High', status: 'Active', created: '2026-03-14' },
+            { title: 'Market Expansion Strategy', account: 'Global Solutions Ltd', priority: 'High', status: 'In Progress', created: '2026-03-11' }
+        ],
+        'Medium': [
+            { title: 'Customer Experience Optimization', account: 'Global Solutions Ltd', priority: 'Medium', status: 'Active', created: '2026-03-09' }
+        ],
+        'Low': [
+            { title: 'Internal Process Improvement', account: 'Global Solutions Ltd', priority: 'Low', status: 'Planned', created: '2026-03-07' }
+        ]
+    },
+    'Innovation Partners': {
+        'High': [
+            { title: 'Blockchain Integration', account: 'Innovation Partners', priority: 'High', status: 'In Progress', created: '2026-03-13' }
+        ],
+        'Medium': [
+            { title: 'IoT Implementation', account: 'Innovation Partners', priority: 'Medium', status: 'Active', created: '2026-03-10' },
+            { title: 'Edge Computing Deployment', account: 'Innovation Partners', priority: 'Medium', status: 'Planned', created: '2026-03-06' }
+        ],
+        'Low': [
+            { title: 'Legacy System Migration', account: 'Innovation Partners', priority: 'Low', status: 'Planned', created: '2026-03-05' }
+        ]
+    },
+    'Enterprise Group': {
+        'High': [
+            { title: 'Enterprise Security Hardening', account: 'Enterprise Group', priority: 'High', status: 'Active', created: '2026-03-12' }
+        ],
+        'Medium': [
+            { title: 'Compliance Framework Update', account: 'Enterprise Group', priority: 'Medium', status: 'In Progress', created: '2026-03-08' }
+        ],
+        'Low': [
+            { title: 'Training Program Development', account: 'Enterprise Group', priority: 'Low', status: 'Planned', created: '2026-03-04' }
+        ]
+    },
+    'Digital Dynamics': {
+        'High': [
+            { title: 'Data Analytics Infrastructure', account: 'Digital Dynamics', priority: 'High', status: 'Active', created: '2026-03-11' }
+        ],
+        'Medium': [
+            { title: 'Mobile App Enhancement', account: 'Digital Dynamics', priority: 'Medium', status: 'In Progress', created: '2026-03-09' }
+        ],
+        'Low': [
+            { title: 'PR Campaign Planning', account: 'Digital Dynamics', priority: 'Low', status: 'Planned', created: '2026-03-03' }
+        ]
+    }
+};
+
+const priorityDetails = {
+    'High': {
+        count: 8,
+        progress: 65,
+        duration: '3-4 weeks',
+        impact: 'Very High',
+        accounts: '5-8 accounts',
+        dependencies: '2-3 critical',
+        resources: '95%',
+        team: '8-10 people',
+        budget: '$50K-$75K',
+        success: '82%',
+        risk: 'High',
+        stakeholder: '85% buy-in',
+        deliverables: '12-15 items',
+        value: '$500K+ ROI'
+    },
+    'Medium': {
+        count: 12,
+        progress: 45,
+        duration: '2-3 weeks',
+        impact: 'Medium',
+        accounts: '3-5 accounts',
+        dependencies: '1-2 moderate',
+        resources: '70%',
+        team: '4-6 people',
+        budget: '$25K-$40K',
+        success: '75%',
+        risk: 'Medium',
+        stakeholder: '72% buy-in',
+        deliverables: '8-10 items',
+        value: '$200K-$300K ROI'
+    },
+    'Low': {
+        count: 15,
+        progress: 30,
+        duration: '1-2 weeks',
+        impact: 'Low',
+        accounts: '1-3 accounts',
+        dependencies: '0-1 minor',
+        resources: '40%',
+        team: '2-3 people',
+        budget: '$10K-$20K',
+        success: '70%',
+        risk: 'Low',
+        stakeholder: '60% buy-in',
+        deliverables: '4-6 items',
+        value: '$50K-$100K ROI'
+    }
+};
+
+
+// All tab content data is now hardcoded in static HTML templates:
+// - Sales Pitch tab: Three priority sections with messaging
+// - Solutions tab: Three solutions with nested accordions
+// - Executives tab: Three priority-level executive tables
+
+// REMOVED: Old solutionsData and executivesData definitions - all data now in static HTML
+
+
+
+
+document.getElementById('filterBtn').addEventListener('click', function() {
+    const account = document.getElementById('accountFilter').value;
+    const priority = document.getElementById('priorityFilter').value;
+    
+    if (!account || !priority) {
+        alert('Please select both account and priority');
+        return;
+    }
+    
+    // Update plays table
+    const tableBody = document.getElementById('playsTable');
+    const plays = playsData[account] ? playsData[account][priority] : [];
+    
+    if (plays && plays.length > 0) {
+        tableBody.innerHTML = '';
+        plays.forEach(play => {
+            let statusBadge = '';
+            if (play.status === 'Active') {
+                statusBadge = '<span class="badge bg-success">Active</span>';
+            } else if (play.status === 'In Progress') {
+                statusBadge = '<span class="badge bg-info">In Progress</span>';
+            } else {
+                statusBadge = '<span class="badge bg-warning">Planned</span>';
+            }
+            
+            tableBody.innerHTML += `
+                <tr>
+                    <td><strong>${play.title}</strong></td>
+                    <td>${play.account}</td>
+                    <td><span class="badge ${play.priority === 'High' ? 'bg-danger' : play.priority === 'Medium' ? 'bg-warning' : 'bg-secondary'}">${play.priority}</span></td>
+                    <td>${statusBadge}</td>
+                    <td>${play.created}</td>
+                </tr>
+            `;
+        });
+    } else {
+        tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No plays found</td></tr>';
+    }
+    
+    // Update priority summary
+    const details = priorityDetails[priority];
+    const priorityBadgeColor = priority === 'High' ? 'bg-danger' : priority === 'Medium' ? 'bg-warning' : 'bg-secondary';
+    
+    document.getElementById('priorityBadge').textContent = priority;
+    document.getElementById('priorityBadge').className = `badge ${priorityBadgeColor}`;
+    document.getElementById('priorityCount').textContent = details.count;
+    document.getElementById('priorityProgress').textContent = details.progress + '%';
+    document.getElementById('priorityDuration').textContent = details.duration;
+    document.getElementById('priorityImpact').textContent = details.impact;
+    document.getElementById('priorityAccounts').textContent = details.accounts;
+    document.getElementById('priorityDependencies').textContent = details.dependencies;
+    document.getElementById('priorityResources').textContent = details.resources;
+    document.getElementById('priorityTeam').textContent = details.team;
+    document.getElementById('priorityBudget').textContent = details.budget;
+    document.getElementById('prioritySuccess').textContent = details.success;
+    document.getElementById('priorityRisk').textContent = details.risk;
+    document.getElementById('priorityStakeholder').textContent = details.stakeholder;
+    document.getElementById('priorityDeliverables').textContent = details.deliverables;
+    document.getElementById('priorityValue').textContent = details.value;
+    
+    
+    // Note: Tab content (Sales Pitch, Solutions, Executives) is now static HTML
+    // No dynamic update needed - all content is hardcoded in the template
+
+    
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('playsContent').style.display = 'block';
+    document.getElementById('emptyPriority').style.display = 'none';
+    document.getElementById('priorityInfo').style.display = 'block';
+});
+
+// Allow filtering on Enter
+document.getElementById('accountFilter').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') document.getElementById('filterBtn').click();
+});
+
+document.getElementById('priorityFilter').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') document.getElementById('filterBtn').click();
+});
+</script>
+{% endblock %}

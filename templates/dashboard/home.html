@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - TrendInsighter{% endblock %}
+
+{% block content %}
+<!-- Hello Card (Full Width) -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card hello-card-sm">
+            <div class="card-body p-3">
+                <div class="hello-content-sm">
+                    <div class="hello-text-sm">
+                        <h4 class="hello-title-sm mb-2">Hello, Welcome Back! 👋</h4>
+                        <p class="hello-subtitle-sm mb-2">Track your business growth and analytics in one place.</p>
+                        <a href="{% url 'dashboard:main' %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-chart-pie"></i> Go to Dashboard
+                        </a>
+                    </div>
+                    <div class="hello-illustration-sm">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2 Cards Row -->
+<div class="row mb-3">
+    <div class="col-md-6 mb-2">
+        <div class="card feature-card-sm">
+            <div class="card-body p-3">
+                <div class="feature-icon-sm primary">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h6 class="card-title mb-1" style="margin-top: 8px;">Real-time Analytics</h6>
+                <p class="card-text small mb-2">Monitor your business metrics in real-time with interactive charts.</p>
+                <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-2">
+        <div class="card feature-card-sm">
+            <div class="card-body p-3">
+                <div class="feature-icon-sm success">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h6 class="card-title mb-1" style="margin-top: 8px;">Secure & Reliable</h6>
+                <p class="card-text small mb-2">Enterprise-grade security with regular backups and data protection.</p>
+                <a href="#" class="btn btn-sm btn-outline-success">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4 Cards Row -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-2">
+        <div class="card stat-card-sm">
+            <div class="card-body text-center p-2">
+                <div class="stat-icon-sm primary">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h6 class="stat-label-sm mt-2">Total Users</h6>
+                <p class="stat-value-sm">12,543</p>
+                <small class="text-success"><i class="fas fa-arrow-up"></i> 12%</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-2">
+        <div class="card stat-card-sm">
+            <div class="card-body text-center p-2">
+                <div class="stat-icon-sm success">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h6 class="stat-label-sm mt-2">Total Orders</h6>
+                <p class="stat-value-sm">3,284</p>
+                <small class="text-success"><i class="fas fa-arrow-up"></i> 8%</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-2">
+        <div class="card stat-card-sm">
+            <div class="card-body text-center p-2">
+                <div class="stat-icon-sm warning">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h6 class="stat-label-sm mt-2">Total Revenue</h6>
+                <p class="stat-value-sm">$125.5K</p>
+                <small class="text-success"><i class="fas fa-arrow-up"></i> 25%</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-2">
+        <div class="card stat-card-sm">
+            <div class="card-body text-center p-2">
+                <div class="stat-icon-sm info">
+                    <i class="fas fa-bar-chart"></i>
+                </div>
+                <h6 class="stat-label-sm mt-2">Conversion Rate</h6>
+                <p class="stat-value-sm">3.45%</p>
+                <small class="text-success"><i class="fas fa-arrow-up"></i> 2%</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tables Row -->
+<div class="row mb-4">
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h5 class="card-title mb-0">Recent Orders</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>#ORD-001</code></td>
+                                <td>John Smith</td>
+                                <td>$250.00</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><code>#ORD-002</code></td>
+                                <td>Sarah Johnson</td>
+                                <td>$320.50</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><code>#ORD-003</code></td>
+                                <td>Michael Brown</td>
+                                <td>$189.99</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td><code>#ORD-004</code></td>
+                                <td>Emily Davis</td>
+                                <td>$450.00</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td><code>#ORD-005</code></td>
+                                <td>David Wilson</td>
+                                <td>$275.75</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h5 class="card-title mb-0">Product Performance</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Product</th>
+                                <th>Sales</th>
+                                <th>Revenue</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Premium Package</td>
+                                <td>234</td>
+                                <td>$12,450</td>
+                                <td><i class="fas fa-star text-warning"></i> 4.8</td>
+                            </tr>
+                            <tr>
+                                <td>Standard Plan</td>
+                                <td>456</td>
+                                <td>$15,960</td>
+                                <td><i class="fas fa-star text-warning"></i> 4.5</td>
+                            </tr>
+                            <tr>
+                                <td>Basic Edition</td>
+                                <td>789</td>
+                                <td>$9,870</td>
+                                <td><i class="fas fa-star text-warning"></i> 4.2</td>
+                            </tr>
+                            <tr>
+                                <td>Enterprise Suite</td>
+                                <td>123</td>
+                                <td>$24,600</td>
+                                <td><i class="fas fa-star text-warning"></i> 4.9</td>
+                            </tr>
+                            <tr>
+                                <td>Starter Kit</td>
+                                <td>567</td>
+                                <td>$5,670</td>
+                                <td><i class="fas fa-star text-warning"></i> 4.3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

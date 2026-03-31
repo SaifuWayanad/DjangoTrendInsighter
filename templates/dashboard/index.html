@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - TrendInsighter{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard</h1>
+    <p class="text-muted">Welcome back! Here's your business overview.</p>
+</div>
+
+<!-- Metric Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="metric-card">
+            <div class="metric-icon primary">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="metric-content">
+                <h6 class="metric-label">Orders</h6>
+                <p class="metric-value">1,235</p>
+                <small class="text-muted">Last 30 days</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="metric-card">
+            <div class="metric-icon success">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="metric-content">
+                <h6 class="metric-label">Revenue</h6>
+                <p class="metric-value">$35,723</p>
+                <small class="text-success"><i class="fas fa-arrow-up"></i> 12% increase</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="metric-card">
+            <div class="metric-icon info">
+                <i class="fas fa-tag"></i>
+            </div>
+            <div class="metric-content">
+                <h6 class="metric-label">Average Price</h6>
+                <p class="metric-value">$16.2</p>
+                <small class="text-muted">Per item</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="metric-card">
+            <div class="metric-icon warning">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div class="metric-content">
+                <h6 class="metric-label">Growth</h6>
+                <p class="metric-value">67%</p>
+                <small class="text-success"><i class="fas fa-arrow-up"></i> vs last month</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <div class="card chart-card">
+            <div class="card-header border-0 pb-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Email Sent</h5>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-outline-secondary active">Week</button>
+                        <button type="button" class="btn btn-outline-secondary">Month</button>
+                        <button type="button" class="btn btn-outline-secondary">Year</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="emailChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card chart-card">
+            <div class="card-header border-0">
+                <h5 class="card-title mb-0">Monthly Earning</h5>
+            </div>
+            <div class="card-body text-center">
+                <div class="earning-amount">
+                    <h3>$34,252</h3>
+                    <p class="text-success"><i class="fas fa-arrow-up"></i> 12% from previous period</p>
+                </div>
+                <canvas id="earningChart" style="max-height: 200px;"></canvas>
+            </div>
+            <div class="card-footer bg-light text-center">
+                <button class="btn btn-sm btn-primary">View More <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Orders -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h5 class="card-title mb-0">Recent Orders</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td><code>{{ order.order_id }}</code></td>
+                                <td>{{ order.customer_name }}</td>
+                                <td>${{ order.amount }}</td>
+                                <td>
+                                    {% if order.status == 'Pending' %}
+                                        <span class="badge bg-warning">{{ order.status }}</span>
+                                    {% elif order.status == 'Completed' %}
+                                        <span class="badge bg-success">{{ order.status }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ order.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header border-bottom">
+                <h5 class="card-title mb-0">Top Cities Selling Product</h5>
+            </div>
+            <div class="card-body">
+                <div class="city-list">
+                    <div class="city-item">
+                        <div class="city-info">
+                            <h6>New York</h6>
+                            <p class="text-muted">45% of total</p>
+                        </div>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-primary" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="city-item">
+                        <div class="city-info">
+                            <h6>Los Angeles</h6>
+                            <p class="text-muted">28% of total</p>
+                        </div>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-success" style="width: 28%"></div>
+                        </div>
+                    </div>
+                    <div class="city-item">
+                        <div class="city-info">
+                            <h6>Chicago</h6>
+                            <p class="text-muted">18% of total</p>
+                        </div>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-warning" style="width: 18%"></div>
+                        </div>
+                    </div>
+                    <div class="city-item">
+                        <div class="city-info">
+                            <h6>Houston</h6>
+                            <p class="text-muted">9% of total</p>
+                        </div>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" style="width: 9%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Email Sent Chart
+    const emailCtx = document.getElementById('emailChart').getContext('2d');
+    const emailChart = new Chart(emailCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [
+                {
+                    label: 'Series A',
+                    data: {{ chart_series_a|safe }},
+                    backgroundColor: '#4C63FF',
+                    borderRadius: 4,
+                },
+                {
+                    label: 'Series B',
+                    data: {{ chart_series_b|safe }},
+                    backgroundColor: '#FFA726',
+                    borderRadius: 4,
+                },
+                {
+                    label: 'Series C',
+                    data: {{ chart_series_c|safe }},
+                    backgroundColor: '#66BB6A',
+                    borderRadius: 4,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Earning Chart (Doughnut)
+    const earningCtx = document.getElementById('earningChart').getContext('2d');
+    const earningChart = new Chart(earningCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Completed', 'Pending', 'Cancelled'],
+            datasets: [{
+                data: [67, 25, 8],
+                backgroundColor: ['#4C63FF', '#FFA726', '#EF5350'],
+                borderColor: '#fff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

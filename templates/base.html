@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TrendInsighter - Dashboard{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="logo-text">TrendInsighter</span>
+                </div>
+            </div>
+
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'dashboard:home' %}">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'my_accounts' %}active{% endif %}" href="{% url 'dashboard:my_accounts' %}">
+                        <i class="fas fa-user"></i>
+                        <span>My Accounts</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'trend_insighter' %}active{% endif %}" href="{% url 'dashboard:trend_insighter' %}">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Trend Insighter</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'competitor_analysis' %}active{% endif %}" href="{% url 'dashboard:competitor_analysis' %}">
+                        <i class="fas fa-crosshairs"></i>
+                        <span>Competitor Analysis</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'vendor_mapping' %}active{% endif %}" href="{% url 'dashboard:vendor_mapping' %}">
+                        <i class="fas fa-map"></i>
+                        <span>Vendor Mapping</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'generate_plays' %}active{% endif %}" href="{% url 'dashboard:generate_plays' %}">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Generate Plays</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'stake_holders' %}active{% endif %}" href="{% url 'dashboard:stake_holders' %}">
+                        <i class="fas fa-users"></i>
+                        <span>Stake Holders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'our_capabilities' %}active{% endif %}" href="{% url 'dashboard:our_capabilities' %}">
+                        <i class="fas fa-star"></i>
+                        <span>Our Capabilities</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-section">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-info">
+                        <p class="user-name">Admin User</p>
+                        <p class="user-title">Administrator</p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-navbar">
+                <div class="navbar-content">
+                    <button class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="navbar-right">
+                        <div class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                        <div class="user-menu">
+                            <div class="user-avatar-icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <span class="user-name-top">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page Content -->
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

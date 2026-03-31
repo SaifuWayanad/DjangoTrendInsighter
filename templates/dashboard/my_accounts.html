@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}My Accounts - TrendInsighter{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-user"></i> My Accounts</h1>
+    <p class="text-muted">Manage and view your account information</p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead style="background: linear-gradient(135deg, var(--primary-color) 0%, #1a5f7a 100%); color: white;">
+                            <tr>
+                                <th style="font-weight: 600; padding: 15px;"><i class="fas fa-building"></i> Company Name</th>
+                                <th style="font-weight: 600; padding: 15px;"><i class="fas fa-map-marker-alt"></i> Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Acme Corporation</strong></td>
+                                <td>123 Business Ave, New York, NY 10001</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TechFlow Solutions</strong></td>
+                                <td>456 Innovation Drive, San Francisco, CA 94105</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Global Ventures Inc</strong></td>
+                                <td>789 Enterprise Boulevard, Chicago, IL 60601</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NextGen Industries</strong></td>
+                                <td>321 Future Street, Austin, TX 78701</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quantum Dynamics Ltd</strong></td>
+                                <td>654 Tech Park Road, Seattle, WA 98101</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phoenix Trading Group</strong></td>
+                                <td>987 Commerce Lane, Boston, MA 02101</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Summit Capital Partners</strong></td>
+                                <td>246 Financial Plaza, Denver, CO 80202</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stellar Analytics Corp</strong></td>
+                                <td>135 Data Center Way, Portland, OR 97204</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Velocity Innovations</strong></td>
+                                <td>579 Technology Park, Miami, FL 33101</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Horizon Enterprises</strong></td>
+                                <td>802 Corporate Drive, Atlanta, GA 30303</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
